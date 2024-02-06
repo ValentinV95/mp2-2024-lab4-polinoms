@@ -122,7 +122,6 @@ public:
 		node* pdelbefore = head;
 		for (int i = 0; i < pos - 1; i++) {
 			pdelbefore = pdelbefore->pnext;
-			pos--;
 		}
 		node* pdel = pdelbefore->pnext;
 		pdelbefore->pnext = pdelbefore->pnext->pnext;
