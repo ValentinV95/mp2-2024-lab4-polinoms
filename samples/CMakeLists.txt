@@ -1,4 +1,2 @@
-file(GLOB hdrs "*.h*" "../include/*.h")
-file(GLOB srcs "*.cpp" "../src/*.cpp")
-
-add_executable(polinoms ${srcs} ${hdrs})
+add_executable(sample sample.cpp)
+target_link_libraries(sample PUBLIC polynoms)
