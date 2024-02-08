@@ -27,16 +27,22 @@ TEST(Monom, can_copy_correctly) {
 
 TEST(Monom, equality_test) {
 	char degs[3] = { 5, 2, 0 };
+	char degs1[3] = { 5, 2, 1 };
 	Monom a(3.0, degs);
 	Monom b(3.0, degs);
-	EXPECT_EQ(a, b);
+	Monom c(3.0, degs1);
+	EXPECT_EQ(a == b, true);
+	EXPECT_EQ(a == c, false);
 }
 
 TEST(Monom, inequality_test) {
 	char degs[3] = { 5, 2, 0 };
-	Monom a(2.0, degs);
+	char degs1[3] = { 5, 2, 1 };
+	Monom a(3.0, degs);
 	Monom b(3.0, degs);
-	EXPECT_NE(a, b);
+	Monom c(3.0, degs1);
+	EXPECT_EQ(a != b, false);
+	EXPECT_EQ(a != c, true);
 }
 
 TEST(Monom, can_multiply) {

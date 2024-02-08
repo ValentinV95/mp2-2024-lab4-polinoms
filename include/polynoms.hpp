@@ -1,4 +1,5 @@
 #pragma once
+#include <cmath>
 #include <iostream>
 #include <stdexcept>
 
@@ -15,10 +16,9 @@ public:
 	List() : head(nullptr), tail(nullptr), size(0) {}
 	~List();
 	List(const List<T> &c);
-	//List(List<T> &&c) = default;
 	List &operator=(const List<T> &c);
-	//List &operator=(List<T> &&c) = default;
-	//T operator[](size_t index) { return get_node(index)->value; }
+	bool operator==(const List<T> &c) const noexcept;
+	bool operator!=(const List<T> &c) const noexcept { return !(*this == c); }
 	T &operator[](size_t index) const { return get_node(index)->value; }
 	size_t get_size() const noexcept { return size; }
 	void push_back(const T &value) {
@@ -43,48 +43,8 @@ public:
 		}
 		size++;
 	}
-	T pop_back() {
-		T res;
-		if (size == 0) {
-			throw std::runtime_error("Pop empty list");
-		}
-		else if (size == 1) {
-			res = tail->value;
-			delete tail;
-			head = nullptr;
-			tail = nullptr;
-		}
-		else {
-			res = tail->value;
-			Node *prevtail = tail->prev;
-			prevtail->next = nullptr;
-			delete tail;
-			tail = prevtail;
-		}
-		size--;
-		return res;
-	}
-	T pop_front() {
-		T res;
-		if (size == 0) {
-			throw std::runtime_error("Pop empty list");
-		}
-		else if (size == 1) {
-			res = head->value;
-			delete head;
-			head = nullptr;
-			tail = nullptr;
-		}
-		else {
-			res = head->value;
-			Node *nexthead = head->next;
-			nexthead->prev = nullptr;
-			delete head;
-			head = nexthead;
-		}
-		size--;
-		return res;
-	}
+	T pop_back();
+	T pop_front();
 	void push(size_t index, const T &value);
 	T pop(size_t index);
 
@@ -103,7 +63,7 @@ private:
 		if (2 * index > size) {
 			Node *curnode = tail;
 			for (size_t i = size - 1; i > index; i--) {
-				curnode = tail->prev;
+				curnode = curnode->prev;
 			}
 			return curnode;
 		}
@@ -120,7 +80,7 @@ private:
 	size_t size;
 };
 
-// Monom - const*x^n*y^m*z^p
+// Monom - const*x^n*y^m*z^p (n,m,p 0-9)
 
 class Monom {
 public:
@@ -129,7 +89,11 @@ public:
 			degs[i] = 0;
 		}
 	}
-	Monom(double inpcoef, char *inpdegs);
+	Monom(double inpcoef, const char *inpdegs);
+	Monom(const Monom &c) = default;
+	Monom(Monom && c) = default;
+	Monom &operator=(const Monom &c) = default;
+	Monom &operator=(Monom &&c) = default;
 	friend std::ostream &operator<<(std::ostream &stream, const Monom &m);
 	bool can_sum(const Monom &sec) const noexcept;
 	int get_degs() const noexcept {
@@ -143,7 +107,8 @@ public:
 	double get_coef() const noexcept { return coef; }
 	void set_coef(double num) noexcept { coef = num; }
 	Monom operator*(const Monom &sec) const;
-	Monom operator*(double num) const { return Monom(coef * num, const_cast<char*>(degs)); }
+	Monom operator*(double num) const { return Monom(coef * num, degs); }
+	Monom operator-() const noexcept { return Monom(-coef, degs); }
 	bool operator==(const Monom &sec) const noexcept;
 	bool operator!=(const Monom &sec) const noexcept { return !(*this == sec); }
 private:
@@ -155,6 +120,12 @@ class Polynom {
 public:
 	Polynom() : monoms() {}
 	Polynom(const List<Monom> &inpmonoms);
+	bool operator==(const Polynom &sec) const noexcept {
+		return (monoms == sec.monoms);
+	}
+	bool operator!=(const Polynom &sec) const noexcept {
+		return (monoms != sec.monoms);
+	}
 	Polynom operator+(const Polynom &sec) const;
 	Polynom operator-(const Polynom &sec) const {
 		return (*this + sec * (-1.0));
@@ -169,7 +140,10 @@ public:
 		}
 		return res;
 	}
-	Polynom operator*(double num) const noexcept {
+	Polynom operator*(double num) const {
+		if (std::abs(num) < eps) {
+			throw std::invalid_argument("Zero is not valid const");
+		}
 		Polynom res(*this);
 		List<Monom>::Node *curnode = res.monoms.head;
 		for (size_t i = 0; i < res.monoms.size; i++) {
@@ -247,6 +221,69 @@ List<T> &List<T>::operator=(const List<T> &c) {
 		tail = prevnode;
 	}
 	return *this;
+}
+
+template <typename T>
+bool List<T>::operator==(const List<T> &c) const noexcept {
+	if (size != c.size) {
+		return false;
+	}
+	Node *ptr1 = head;
+	Node *ptr2 = c.head;
+	while (ptr1 != nullptr) {
+		if (ptr1->value != ptr2->value) {
+			return false;
+		}
+		ptr1 = ptr1->next;
+		ptr2 = ptr2->next;
+	}
+	return true;
+}
+
+template <typename T>
+T List<T>::pop_back() {
+	T res;
+	if (size == 0) {
+		throw std::runtime_error("Pop empty list");
+	}
+	else if (size == 1) {
+		res = tail->value;
+		delete tail;
+		head = nullptr;
+		tail = nullptr;
+	}
+	else {
+		res = tail->value;
+		Node *prevtail = tail->prev;
+		prevtail->next = nullptr;
+		delete tail;
+		tail = prevtail;
+	}
+	size--;
+	return res;
+}
+
+template <typename T>
+T List<T>::pop_front() {
+	T res;
+	if (size == 0) {
+		throw std::runtime_error("Pop empty list");
+	}
+	else if (size == 1) {
+		res = head->value;
+		delete head;
+		head = nullptr;
+		tail = nullptr;
+	}
+	else {
+		res = head->value;
+		Node *nexthead = head->next;
+		nexthead->prev = nullptr;
+		delete head;
+		head = nexthead;
+	}
+	size--;
+	return res;
 }
 
 template <typename T>

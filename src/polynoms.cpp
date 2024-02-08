@@ -1,6 +1,6 @@
 #include "polynoms.hpp"
 
-Monom::Monom(double inpcoef, char *inpdegs) : coef(inpcoef) {
+Monom::Monom(double inpcoef, const char *inpdegs) : coef(inpcoef) {
 	for (size_t i = 0; i < VARS; i++) {
 		if (inpdegs[i] >= 0 && inpdegs[i] <= 9) {
 			degs[i] = inpdegs[i];
@@ -41,12 +41,11 @@ Monom Monom::operator*(const Monom &sec) const {
 	for (size_t i = 0; i < VARS; i++) {
 		resdegs[i] = degs[i] + sec.degs[i];
 	}
-	Monom res(coef * sec.coef, resdegs);
-	return res;
+	return Monom(coef * sec.coef, resdegs);
 }
 
 bool Monom::operator==(const Monom &sec) const noexcept {
-	if ((can_sum(sec)) && (coef == sec.coef)) {
+	if ((can_sum(sec)) && (std::abs(coef - sec.coef) < eps)) {
 		return true;
 	}
 	return false;
@@ -59,7 +58,7 @@ Polynom::Polynom(const List<Monom> &inpmonoms) : monoms(inpmonoms) {
 	List<Monom>::Node *curnode = monoms.head;
 	size_t id = 0;
 	while (curnode != nullptr) {
-		if (curnode->value.get_coef() < eps) {
+		if (std::abs(curnode->value.get_coef()) < eps) {
 			curnode = curnode->next;
 			monoms.pop(id);
 			continue;
@@ -84,7 +83,7 @@ Polynom Polynom::operator+(const Polynom &sec) const {
 		}
 		else {
 			double newcoef = ptr1->value.get_coef() + ptr2->value.get_coef();
-			if (newcoef >= eps) {
+			if (std::abs(newcoef) >= eps) {
 				Monom tmp(ptr1->value);
 				tmp.set_coef(newcoef);
 				res.push_back(tmp);
@@ -115,10 +114,21 @@ Polynom Polynom::operator*(const Polynom &sec) const {
 }
 
 std::ostream &operator<<(std::ostream &stream, const Polynom &poly) {
-	for (size_t i = 0; i < poly.monoms.get_size(); i++) {
-		stream << poly.monoms[i];
-		if (i + 1 < poly.monoms.get_size()) {
+	bool sgn;
+	stream << poly.monoms[0];
+	for (size_t i = 1; i < poly.monoms.get_size(); i++) {
+		sgn = poly.monoms[i].get_coef() > 0.0 ? true : false;
+		if (sgn) {
 			stream << " + ";
+		}
+		else {
+			stream << " - ";
+		}
+		if (sgn) {
+			stream << poly.monoms[i];
+		}
+		else {
+			stream << -poly.monoms[i];
 		}
 	}
 	return stream;
