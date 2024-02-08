@@ -4,7 +4,7 @@ Polynom::Monom::Monom() : coefficient(0.0), degree(0) {}
 
 Polynom::Monom::Monom(double coef, unsigned short deg) : coefficient(coef), degree(deg) 
 { 
-    if (deg > max_degree * max_degree * max_degree) throw std::exception("too large degree"); 
+    if (deg >= max_degree * max_degree * max_degree) throw std::exception("too large degree"); 
 }
 
 Polynom::Monom::Monom(double coef, unsigned short deg1, unsigned short deg2, unsigned short deg3) : coefficient(coef), degree(deg1 * max_degree * max_degree + deg2 * max_degree + deg3)
