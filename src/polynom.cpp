@@ -9,7 +9,7 @@ Polynom::Monom::Monom(double coef, unsigned short deg) : coefficient(coef), degr
 
 Polynom::Monom::Monom(double coef, unsigned short deg1, unsigned short deg2, unsigned short deg3) : coefficient(coef), degree(deg1 * max_degree * max_degree + deg2 * max_degree + deg3)
 {
-    if ((deg1 > max_degree) || (deg2 > max_degree) || (deg3 > max_degree)) throw std::exception("too large degree");
+    if ((deg1 >= max_degree) || (deg2 >= max_degree) || (deg3 >= max_degree)) throw std::exception("too large degree");
 }
 
 bool Polynom::Monom::operator==(const Monom& m) const { return (std::abs(coefficient - m.coefficient) < eps) && (degree == m.degree); }
