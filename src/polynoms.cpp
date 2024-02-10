@@ -12,16 +12,29 @@ Monom::Monom(double inpcoef, const char *inpdegs) : coef(inpcoef) {
 }
 
 std::ostream &operator<<(std::ostream &stream, const Monom &m) {
-	stream << m.coef;
+	bool coef_is_one = false;
+	if (std::abs(m.coef - 1.0) < eps) {
+		coef_is_one = true;
+		bool sgn = m.coef > 0.0 ? true : false;
+		if (!sgn) {
+			stream << '-';
+		}
+	}
+	else {
+		stream << m.coef;
+	}
 	for (size_t i = 0; i < VARS; i++) {
+		if (m.degs[i] != 0 && !(coef_is_one && i == 0)) {
+			stream << '*';
+		}
 		switch (m.degs[i]){
 		case 0:
 			break;
 		case 1:
-			stream << '*' << static_cast<char>('x' + i);
+			stream << static_cast<char>('x' + i);
 			break;
 		default:
-			stream << '*' << static_cast<char>('x' + i) << '^' << static_cast<int>(m.degs[i]);
+			stream << static_cast<char>('x' + i) << '^' << static_cast<int>(m.degs[i]);
 		}
 	}
 	return stream;

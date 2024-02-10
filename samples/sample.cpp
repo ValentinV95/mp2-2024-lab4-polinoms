@@ -45,6 +45,7 @@ int main(int argc, char **argv) {
 	Polynom b;
 	double alpha;
 	while (true) {
+		std::cout << "Rules: no const=0 multiplication, degrees should be 0-9 (same for multiplication result, so be careful)" << std::endl;
 		std::cout << "1) Polynom + Polynom;\n" <<
 					 "2) Polynom - Polynom;\n" <<
 					 "3) const * Polynom\n" <<
