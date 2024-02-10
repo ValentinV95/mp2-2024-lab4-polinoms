@@ -216,7 +216,7 @@ void Polynom::fill(const bool& flag)
 
             if (d1 >= max_degree || d2 >= max_degree || d3 >= max_degree) throw std::exception("too large degree");
 
-            polynom.push_front(Monom(coef, d1 * max_degree * max_degree + d2 * max_degree + d3));
+            polynom.push_back(Monom(coef, d1 * max_degree * max_degree + d2 * max_degree + d3));
 
             c--;
         }
@@ -244,7 +244,7 @@ void Polynom::fill(const bool& flag)
 
             if (d1 >= max_degree || d2 >= max_degree || d3 >= max_degree) throw std::exception("too large degree");
 
-            polynom.push_front(Monom(coef, d1 * max_degree * max_degree + d2 * max_degree + d3));
+            polynom.push_back(Monom(coef, d1 * max_degree * max_degree + d2 * max_degree + d3));
 
             c--;
         }
