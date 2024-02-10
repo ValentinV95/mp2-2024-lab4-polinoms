@@ -226,3 +226,21 @@ TEST(List, correct_compare_lists)
 	l1.push_back(2);
 	EXPECT_NE(l1, l2);
 }
+
+TEST(List, correct_merge_sort)
+{
+	List<int> l;
+	for (int i = 0; i < 10; i++)
+		l.push_back(i);
+
+	l.merge_sort
+	(
+		[](const int& a, const int& b) 
+		{ return a - b; }
+	);
+
+	List<int>::iterator iter = l.begin();
+
+	for (int i = 9; i > -1; i--, ++iter)
+		EXPECT_EQ(*iter, i);
+}

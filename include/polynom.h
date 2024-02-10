@@ -21,8 +21,10 @@ private:
         bool operator!=(const Monom&) const;
         Monom& operator=(const Monom&);
     };
-    
+
     List<Monom> polynom;
+
+    void reduce(const bool& flag=1); //flag == 0, if monoms are sorted by degrees
 
 public:
 
@@ -41,5 +43,5 @@ public:
     bool operator!=(const Polynom&) const;
 
     void print();
-    void fill();
+    void fill(const bool& flag=1); //flag == 0, if input monoms are sorted by degrees and polynom==0
 };

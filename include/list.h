@@ -12,6 +12,60 @@ private:
         Node(const Node& node) : data(node.data), next(node.next) {}
     };
 
+    Node* split(Node* node)
+    {
+        if (node == nullptr) throw std::invalid_argument("node shouldn't be equal to nullptr");
+
+        Node* tmp = node;
+        int len = 0;
+        while (tmp!=nullptr) { tmp = tmp->next; len++; }
+        
+        Node* cur = node;
+        for (int i = 0; i < len / 2 - 1; i++)
+            cur = cur->next;
+
+        Node* res = cur->next;
+        cur->next = nullptr;
+        return res;
+    }
+
+    Node* merge(Node* first, Node* second, int (*comparator) (const T&, const T&) )
+    {
+        if (first == nullptr || second == nullptr) throw std::invalid_argument("first and secont shouldn't be equal to nullptr");
+
+        Node dummy(T{}, nullptr);
+        Node* cur = &dummy;
+
+        while (first!=nullptr && second!=nullptr) {
+            Node* max;
+            if (comparator(first->data, second->data)>0) 
+            {
+                max = first;
+                first = first->next;
+            }
+            else 
+            {
+                max = second;
+                second = second->next;
+            }
+            cur = cur->next = max;
+        }
+        cur->next = first ? first : second;
+        return dummy.next;
+    }
+
+    void sort(Node*& first, int (*comparator) (const T&, const T&) )
+    {
+        if (first == nullptr || first->next == nullptr) return;
+
+        Node* second = split(first);
+
+        sort(first, comparator);
+        sort(second, comparator);
+
+        first = merge(first, second, comparator);
+    }
+
     Node* head;
     Node* tail;
     size_t size;
@@ -83,6 +137,9 @@ public:
         bool operator==(const Node* _node) const { return node == _node; }
 
         bool operator!=(const Node* _node) const { return node != _node; }
+
+        Node* get_node_ptr() const noexcept { return node; }
+
     };
 
     Node* begin() const { return head; }
@@ -137,6 +194,24 @@ public:
         size++;
     }
 
+    void ins_after(Node* node, const T& val, const bool& secure)
+    {
+        if (!node) throw std::invalid_argument("node shoudn't be equal to nullptr");
+        if (secure)
+        {
+            bool flag1=false;
+            for (Node* cur = head; cur != nullptr; cur = cur->next)
+                if (cur == node) flag1 = true;
+            if (!flag1) throw std::invalid_argument("Node* node isn't from this list");
+        }
+
+        Node* node2 = new Node(val, node->next);
+        node->next = node2;
+
+        if (node2->next == nullptr) tail = node2;
+        size++;
+    }
+
     void del_after(size_t pos)
     {
         if (pos > size - 2) throw std::out_of_range("too large pos");
@@ -153,48 +228,52 @@ public:
         if (node->next == nullptr) tail = node;
         size--;
     }
+
+    void del_after(Node* node, const bool& secure)
+    {
+        if (!node) throw std::invalid_argument("node shoudn't be equal to nullptr");
+        if (secure)
+        {
+            bool flag1 = false;
+            for (Node* cur = head; cur != nullptr; cur = cur->next)
+                if (cur == node) flag1 = true;
+            if (!flag1) throw std::invalid_argument("Node* node isn't from this list");
+        }
+
+        Node* next;
+
+        next = node->next->next;
+        delete node->next;
+        node->next = next;
+
+        if (node->next == nullptr) tail = node;
+        size--;
+    }
     
     bool operator==(const List& l) const
     {
-        if (size != l.size) return false;
+        if (this != &l) 
+        {
+            if (size != l.size) return false;
 
-        Node* node1 = head;
-        Node* node2 = l.head;
-        for (; node1 != nullptr; node1 = node1->next, node2 = node2->next) 
-            if (node1->data != node2->data) return false;
+            Node* node1 = head;
+            Node* node2 = l.head;
+            for (; node1 != nullptr; node1 = node1->next, node2 = node2->next)
+                if (node1->data != node2->data) return false;
+        }
         
         return true;
     }
     
     bool operator!=(const List& l) const { return !(*this == l); }
 
+    void merge_sort(int (*comparator) (const T&, const T&)) { sort(head, comparator); }
+
+    void print() 
+    { 
+        for (Node* cur = head; cur != nullptr; cur = cur->next)
+            std::cout << cur->data << " ";
+
+        std::cout << std::endl;
+    }
 };
-
-    /*
-    {
-        List slowPointer = head;
-        List fastPointer = head;
-
-        while (fastPointer != null && fastPointer.Next != null)
-        {
-            slowPointer = slowPointer.Next;
-            fastPointer = fastPointer.Next.Next;
-            if (slowPointer == fastPointer) break;
-
-        }
-
-        if (fastPointer == null || fastPointer.Next == null)
-            return null;
-
-
-        slowPointer = head;
-
-        while (slowPointer != fastPointer)
-        {
-            slowPointer = slowPointer.Next;
-            fastPointer = fastPointer.Next;
-        }
-
-        return fastPointer;
-
-    }*/
