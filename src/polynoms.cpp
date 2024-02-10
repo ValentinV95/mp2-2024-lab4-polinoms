@@ -41,7 +41,13 @@ Monom Monom::operator*(const Monom &sec) const {
 	for (size_t i = 0; i < VARS; i++) {
 		resdegs[i] = degs[i] + sec.degs[i];
 	}
-	return Monom(coef * sec.coef, resdegs);
+	try {
+		Monom res(coef * sec.coef, resdegs);
+		return res;
+	}
+	catch (const std::exception &e) {
+		throw std::runtime_error("Degrees overflow in multiplication");
+	}
 }
 
 bool Monom::operator==(const Monom &sec) const noexcept {
@@ -114,6 +120,10 @@ Polynom Polynom::operator*(const Polynom &sec) const {
 }
 
 std::ostream &operator<<(std::ostream &stream, const Polynom &poly) {
+	if (poly.monoms.get_size() == 0) {
+		stream << '0';
+		return stream;
+	}
 	bool sgn;
 	stream << poly.monoms[0];
 	for (size_t i = 1; i < poly.monoms.get_size(); i++) {

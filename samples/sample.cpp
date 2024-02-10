@@ -18,7 +18,7 @@ Polynom fill_polynom() {
 	Monom tmpmonom;
 	List<Monom> monoms;
 	std::cout << "Enter amount of monoms: ";
-	std::cin >> amount;
+	get_var(amount);
 	for (size_t i = 0; i < amount; i++) {
 		std::cout << "Enter coefficient: ";
 		get_var(tmpcoef);
@@ -56,46 +56,66 @@ int main(int argc, char **argv) {
 		}
 		switch (choice) {
 		case 1: {
-			std::cout << "Polynom #1: " << std::endl;
-			a = fill_polynom();
-			std::cout << a << std::endl;
-			std::cout << "Polynom #2: " << std::endl;
-			b = fill_polynom();
-			std::cout << b << std::endl;
-			std::cout << "Result: " << std::endl;
-			std::cout << a + b << std::endl;
+			try {
+				std::cout << "Polynom #1: " << std::endl;
+				a = fill_polynom();
+				std::cout << a << std::endl;
+				std::cout << "Polynom #2: " << std::endl;
+				b = fill_polynom();
+				std::cout << b << std::endl;
+				std::cout << "Result: " << std::endl;
+				std::cout << a + b << std::endl;
+			}
+			catch (const std::exception &e) {
+				std::cout << "Exception: " << e.what() << std::endl;
+			}
 			break;
 		}
 		case 2: {
-			std::cout << "Polynom #1: " << std::endl;
-			a = fill_polynom();
-			std::cout << a << std::endl;
-			std::cout << "Polynom #2: " << std::endl;
-			b = fill_polynom();
-			std::cout << b << std::endl;
-			std::cout << "Result: " << std::endl;
-			std::cout << a - b << std::endl;
+			try {
+				std::cout << "Polynom #1: " << std::endl;
+				a = fill_polynom();
+				std::cout << a << std::endl;
+				std::cout << "Polynom #2: " << std::endl;
+				b = fill_polynom();
+				std::cout << b << std::endl;
+				std::cout << "Result: " << std::endl;
+				std::cout << a - b << std::endl;
+			}
+			catch (const std::exception &e) {
+				std::cout << "Exception: " << e.what() << std::endl;
+			}
 			break;
 		}
 		case 3: {
-			std::cout << "Polynom #1: " << std::endl;
-			a = fill_polynom();
-			std::cout << a << std::endl;
-			std::cout << "Enter const: " << std::endl;
-			get_var(alpha);
-			std::cout << "Result: " << std::endl;
-			std::cout << a * alpha << std::endl;
+			try {
+				std::cout << "Polynom #1: " << std::endl;
+				a = fill_polynom();
+				std::cout << a << std::endl;
+				std::cout << "Enter const: " << std::endl;
+				get_var(alpha);
+				std::cout << "Result: " << std::endl;
+				std::cout << a * alpha << std::endl;
+			}
+			catch (const std::exception &e) {
+				std::cout << "Exception: " << e.what() << std::endl;
+			}
 			break;
 		}
 		case 4: {
-			std::cout << "Polynom #1: " << std::endl;
-			a = fill_polynom();
-			std::cout << a << std::endl;
-			std::cout << "Polynom #2: " << std::endl;
-			b = fill_polynom();
-			std::cout << b << std::endl;
-			std::cout << "Result: " << std::endl;
-			std::cout << a * b << std::endl;
+			try {
+				std::cout << "Polynom #1: " << std::endl;
+				a = fill_polynom();
+				std::cout << a << std::endl;
+				std::cout << "Polynom #2: " << std::endl;
+				b = fill_polynom();
+				std::cout << b << std::endl;
+				std::cout << "Result: " << std::endl;
+				std::cout << a * b << std::endl;
+			}
+			catch (const std::exception &e) {
+				std::cout << "Exception: " << e.what() << std::endl;
+			}
 			break;
 		}
 		case 5: {
