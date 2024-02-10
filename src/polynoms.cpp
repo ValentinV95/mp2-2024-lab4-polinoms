@@ -42,8 +42,7 @@ Monom Monom::operator*(const Monom &sec) const {
 		resdegs[i] = degs[i] + sec.degs[i];
 	}
 	try {
-		Monom res(coef * sec.coef, resdegs);
-		return res;
+		return Monom(coef * sec.coef, resdegs);
 	}
 	catch (const std::exception &e) {
 		throw std::runtime_error("Degrees overflow in multiplication");
