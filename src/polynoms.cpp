@@ -142,14 +142,10 @@ std::ostream &operator<<(std::ostream &stream, const Polynom &poly) {
 		sgn = poly.monoms[i].get_coef() > 0.0 ? true : false;
 		if (sgn) {
 			stream << " + ";
-		}
-		else {
-			stream << " - ";
-		}
-		if (sgn) {
 			stream << poly.monoms[i];
 		}
 		else {
+			stream << " - ";
 			stream << -poly.monoms[i];
 		}
 	}
