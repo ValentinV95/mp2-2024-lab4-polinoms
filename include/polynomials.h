@@ -22,7 +22,6 @@ private:
 	Monome* head;
 	int quanity;
 public:
-	Polynomial(int quan); //конструктор пользовательского ввода
 	Polynomial(int quan, double* arr); //конструктор полинома из массива гарантированно верных данных (для тестов)
 	Polynomial(const Polynomial& p);  //к-р копирования (не плодит указатели на один и тот же объект, next = nullptr)
 	Polynomial();
@@ -40,6 +39,41 @@ public:
 	Polynomial operator *(const Polynomial& p);
 	Polynomial& operator *=(const Polynomial& p);
 	int poly_out(double* tmp);//возвращает кол-во мономов, в tmp записывает мономы (к-т, степень x, степень y, степень z)
+	friend istream& operator>>(istream& istr, Polynomial& p)
+	{
+		Monome* ind = p.head, * ind_next = p.head;
+		for (int i = 0; i < p.quanity; i++)
+		{
+			ind_next = ind_next->next;
+			delete ind;
+			ind = ind_next;
+		}
+		p.quanity = 0;
+
+		p.head = new Monome(0, 0, nullptr); //фиктивная голова
+		double a;
+		int pow_x, pow_y, pow_z, quan;
+		istr >> quan;
+		for (int i = 0; i < quan; i++)
+		{
+			istr >> a >> pow_x >> pow_y >> pow_z;
+			if (a != 0 && (pow_x >= 0 && pow_x <= 9) &&
+				(pow_y >= 0 && pow_y <= 9) &&
+				(pow_z >= 0 && pow_z <= 9))
+			{
+				p.pop(a, pow_x * 100 + pow_y * 10 + pow_z);
+			}
+			else if (a == 0)	continue;
+			else
+			{
+				string except("Invalid input of monome ");
+				except += to_string(i);
+				throw invalid_argument(except);
+			}
+
+		}
+		return istr;
+	}
 	friend ostream& operator<<(ostream& ostr, const Polynomial& p)
 	{
 		Monome* prev = p.head->next;
