@@ -66,9 +66,9 @@ int Polynom::count_deg(const std::string& s, int& i) const {
 	while (s[i] == 'x' || s[i] == 'y' || s[i] == 'z') {
 		switch (s[i])
 		{
-		case ('x'): num = 100;
+		case ('x'): num = max_deg*max_deg;
 			break;
-		case ('y'): num = 10;
+		case ('y'): num = max_deg;
 			break;
 		case('z'): num = 1;
 		}
@@ -77,10 +77,11 @@ int Polynom::count_deg(const std::string& s, int& i) const {
 		else {
 			i++;
 			if (s[i] >= '0' && s[i] <= '9') deg = (int)s[i] - 48;
+			else throw std::invalid_argument(Error_string(s, i) + "Deg of each monom can be only a {0, 1, 2, 3, 4, 5, 6, 7, 8, 9}");
 			i++;
 		}
-		if (res % (num * 10) - res % num + deg * num < num * 10) res += deg * num;
-		else throw std::invalid_argument("Deg of each variable can't be greater then 9");
+		if (res % (num * max_deg) - res % num + deg * num < num * max_deg) res += deg * num;
+		else throw std::invalid_argument("Deg of each variable can't be greater than 9");
 	}
 	if (s[i] >= '0' && s[i] <= '9' && s[i - 1] >= '0' && s[i - 1] <= '9')
 		throw std::invalid_argument(Error_string(s, i) + "Deg of each monom can be only a {0, 1, 2, 3, 4, 5, 6, 7, 8, 9}");
@@ -134,11 +135,11 @@ Polynom::Polynom(const std::string& str) {
 			tmp.second = count_deg(s, i);
 		}
 		else throw std::invalid_argument(Error_string(s, i) + "This writing is not correct");
-		if (abs(tmp.first) < pow(10, -10)) continue;
+		if (abs(tmp.first) < eps) continue;
 		Node* this_ = head;
 		while (this_->next && this_->next->data.second > tmp.second) this_ = this_->next; //Looking for the right place for monom
 		if (this_->next != nullptr && this_->next->data.second == tmp.second) 
-			if (abs(this_->next->data.first + tmp.first) > pow(10, -10)) this_->next->data.first += tmp.first; else del(this_);
+			if (abs(this_->next->data.first + tmp.first) > eps) this_->next->data.first += tmp.first; else del(this_);
 		else add(this_, tmp); 
 	};
 };
@@ -161,7 +162,7 @@ Polynom Polynom::operator+ (const Polynom& p) {
 			tmp3 = tmp3->next;
 		}
 		else if ((tmp1 != nullptr && tmp2 != nullptr) && tmp1->data.second == tmp2->data.second) {
-				if (abs(tmp1->data.first + tmp2->data.first) >= pow(10, -10)) {   //don't save the value if it is 0
+				if (abs(tmp1->data.first + tmp2->data.first) >= eps) {   //don't save the value if it is 0
 					res.add(tmp3, std::pair<double, int>(tmp1->data.first + tmp2->data.first, tmp1->data.second));
 					tmp3 = tmp3->next;
 				}
@@ -177,53 +178,43 @@ Polynom Polynom::operator+ (const Polynom& p) {
 };
 
 Polynom Polynom::operator*(const Polynom& p) {
-	Polynom res;
-	if (p.head->next == nullptr || head->next==nullptr) return res;
-	Node* tmp1 = head->next, * tmp2 = p.head->next, * tmp3 = res.head;
-	while (tmp1) {
-		while (tmp2) {
-			if (tmp1->data.second % 10 + tmp2->data.second % 10 < 10 &&
-				tmp1->data.second % 100 + tmp2->data.second % 100 - tmp1->data.second % 10 - tmp2->data.second % 10 < 100 &&
-				tmp1->data.second + tmp2->data.second - tmp1->data.second % 100 - tmp2->data.second % 100 < 1000) 
-			{
-				res.add(tmp3, std::pair<double, int>(tmp1->data.first * tmp2->data.first, tmp1->data.second + tmp2->data.second));
-				tmp3 = tmp3->next;
+	Node* tmp = head->next;
+	Polynom p_res;
+	int n=0;
+	while (tmp) {
+		tmp = tmp->next;
+		n++;
+	};
+	if (n != 0) {
+		tmp = head->next;
+		Polynom* res = new Polynom[n]{};
+		for (int i = 0; i < n; i++, tmp = tmp->next) {
+			res[i] = p * tmp->data.first;
+			Node* tmp2 = res[i].head->next;
+			while (tmp2) {
+				if (tmp->data.second % max_deg + tmp2->data.second % max_deg < max_deg &&
+					(tmp->data.second / max_deg) % max_deg + (tmp2->data.second / max_deg) % max_deg < max_deg &&
+					tmp->data.second / (max_deg * max_deg) + tmp2->data.second / (max_deg * max_deg) < max_deg)
+					tmp2->data.second += tmp->data.second;
+				else throw std::invalid_argument("The sum of the powers of monomes when multiplying polynomials should not be greater than 9");
 				tmp2 = tmp2->next;
 			}
-			else throw std::invalid_argument("Deg of each variable can't be greater then 9");
-		};
-		tmp1 = tmp1->next;
-		tmp2 = p.head->next;
-	}
-	tmp1 = nullptr;
-	tmp2 = res.head->next;
-	while (tmp1 != res.head->next->next) { //sort monoms in List, collect like terms
-		while (tmp2->next != tmp1) {
-			if (tmp2->data.second < tmp2->next->data.second) std::swap(tmp2->data, tmp2->next->data);
-			else 
-			if (tmp2->data.second == tmp2->next->data.second) {
-				tmp2->data.first += tmp2->next->data.first;
-				res.del(tmp2);
-			}
-			tmp2 = tmp2->next;
 		}
-		tmp1 = tmp2;
-		tmp2 = res.head->next;
+		for (int i = 2; i < 2 * n; i *= 2)
+			for (int j = 0; j < n - i / 2; j += i)
+				res[j] = res[j] + res[j + i / 2];
+		p_res = res[0];
+		delete[] res;
 	}
-	tmp1 = res.head;
-	while (tmp1->next) { //delete all monoms if it's coefficient = 0
-		if (abs(tmp1->next->data.first) < pow(10, -10)) res.del(tmp1);
-		tmp1 = tmp1->next;
-	}
-	return res;
-};
+	return p_res;
+}
 
 Polynom Polynom::operator* (const double& a) const {
 	Polynom res;
-	if (abs(a) < pow(10, -10)) return res;
+	if (abs(a) < eps) return res;
 	Node* tmp1 = head->next, * tmp2 = res.head;
 	while (tmp1) {
-		res.add(tmp2, std::pair<double, int>(tmp1->data.first * a, tmp1->data.second));
+		if (abs(a* tmp1->data.first) >= eps) res.add(tmp2, std::pair<double, int>(tmp1->data.first * a, tmp1->data.second));
 		tmp2 = tmp2->next;
 		tmp1 = tmp1->next;
 	}
@@ -240,20 +231,20 @@ std::ostream& operator<<(std::ostream& ostr, const Polynom& p) {
 	while (tmp)
 	{
 		std::pair< double, int > pr = tmp->data;
-		if (abs(pr.first - 1) < pow(10, -10) && pr.second != 0) {} //if coefficient is equal to 1 or -1, don't write it
-		else if (abs(pr.first + 1) < pow(10, -10) && pr.second != 0) ostr << "-";
+		if (abs(pr.first - 1) < eps && pr.second != 0) {} //if coefficient is equal to 1 or -1, don't write it
+		else if (abs(pr.first + 1) < eps && pr.second != 0) ostr << "-";
 		else ostr << pr.first;
-		if (pr.second - pr.second % 100 != 0) {
-			if (pr.second - pr.second % 100 == 100) ostr << "x";
-			else ostr << "x^" << (pr.second - pr.second % 100) / 100;
+		if (pr.second / (max_deg * max_deg) != 0) {
+			if (pr.second / (max_deg * max_deg) == 1) ostr << "x";
+			else ostr << "x^" << pr.second / (max_deg * max_deg);
 		}
-		if (pr.second % 100 - pr.second % 10 != 0) {
-			if (pr.second % 100 - pr.second % 10 == 10) ostr << "y";
-			else ostr << "y^" << (pr.second % 100 - pr.second % 10) / 10;
+		if ((pr.second/max_deg)%max_deg != 0) {
+			if ((pr.second / max_deg) % max_deg == 1) ostr << "y";
+			else ostr << "y^" << (pr.second / max_deg) % max_deg;
 		}
-		if (pr.second % 10 != 0) {
-			if (pr.second % 10 == 1) ostr << "z";
-			else ostr << "z^" << pr.second % 10;
+		if (pr.second % max_deg != 0) {
+			if (pr.second % max_deg == 1) ostr << "z";
+			else ostr << "z^" << pr.second % max_deg;
 		}
 		tmp = tmp->next;
 		if (tmp && tmp->data.first > 0) ostr << "+";

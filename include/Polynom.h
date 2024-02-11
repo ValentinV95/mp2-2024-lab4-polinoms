@@ -1,6 +1,10 @@
 #pragma once
 #include "List.h"
 
+const double eps = pow(10, -10);
+
+const int max_deg = 10;
+
 class Polynom : private List<std::pair<double, int>> {
 	using List<std::pair<double, int>>:: head;
 

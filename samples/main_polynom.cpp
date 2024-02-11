@@ -12,6 +12,7 @@ int main() {
 				if (check == 1) std::cout << "First polynomial: " << p1 << "\n";
 				std::cout << "Select an operation:\n 1)+\n 2)-\n 3)* (polynomial by a polynomial)\n 4)* (polynomial by a constant)\n";
 				if (check != 1) std::cout << " 0) to end work with programm\n";
+				else std::cout << " 0) to delete saved polynom\n";
 				std::cin >> choose;
 				std::getline(std::cin, str);
 				if (choose < 0 || choose>4) {
@@ -19,6 +20,12 @@ int main() {
 					std::cout << "This operation does not exist. Try again\n";
 				}
 			} while (choose < 0 || choose>4);
+			if (choose == 0 && check == 1) {
+				check = 0;
+				choose = -1;
+				system("cls");
+				continue;
+			}
 			if (choose != 0) {
 				if (check != 1) {
 					while (true) {
