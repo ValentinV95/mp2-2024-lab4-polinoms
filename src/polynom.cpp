@@ -170,7 +170,7 @@ Polynom Polynom::operator*(const double& coef) const
     Polynom res;
     if (std::abs(coef) < eps) return res;
     for (List<Monom>::iterator iter = polynom.begin(); iter != polynom.end(); ++iter)
-        res.polynom.push_back(Monom((*iter).coefficient * coef, (*iter).degree));
+        if (std::abs(coef * (*iter).coefficient)>eps) res.polynom.push_back(Monom((*iter).coefficient * coef, (*iter).degree));
     
     return res;
 }
