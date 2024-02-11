@@ -172,3 +172,38 @@ TEST(Polynom, correct_compare_polynoms)
 	EXPECT_EQ(p1, p2);
 	EXPECT_NE(p2, p3);
 }
+
+TEST(Polynom, reduce_when_mult) 
+{
+	// (x^2 - xy + y^2) * (x + y) == x^3 + y^3
+	//		p1			*    p2   ==	p3
+
+	Polynom p1, p2, p3;
+	p1.add_monom(1, 2 * max_degree * max_degree);
+	p1.add_monom(-1, 1 * max_degree + 1 * max_degree * max_degree);
+	p1.add_monom(1, 2 * max_degree);
+
+	p2.add_monom(1, 1 * max_degree * max_degree);
+	p2.add_monom(1, 1 * max_degree);
+
+	p3.add_monom(1, 3 * max_degree);
+	p3.add_monom(1, 3 * max_degree * max_degree);
+
+	EXPECT_EQ(p3, p1 * p2);
+
+	Polynom p4, p5, p6, p7;
+	// (2eps * X - 10*y) * (2eps * X + 10*y) == 4 eps^2 x^2 - 100y^2 == - 100y^2
+	p4.add_monom(2*eps, max_degree * max_degree);
+	p4.add_monom(-10, 1 * max_degree);
+
+	p5.add_monom(2 * eps, max_degree * max_degree);
+	p5.add_monom(10, 1 * max_degree);
+	
+	p6.add_monom(4 * eps * eps, 2* max_degree * max_degree);
+	p6.add_monom(-100, 2 * max_degree);
+
+	p7.add_monom(-100, 2 * max_degree);
+
+	EXPECT_EQ(p6, p4 * p5); 
+	EXPECT_EQ(p6, p7);
+}
