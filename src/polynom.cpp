@@ -55,6 +55,26 @@ void Polynom::reduce(const bool& flag)
         }
         else ++iter1;
     }   
+
+    List<Monom>::iterator iter4 = polynom.begin();
+    List<Monom>::iterator iter5 = polynom.begin(); ++iter5;
+
+    if (((*iter4).degree == (*iter5).degree) && iter4!=polynom.end() && iter5 != polynom.end())
+    {
+        if (std::abs((*iter4).coefficient + (*iter5).coefficient) > eps)
+        {
+            Monom tmp((*iter4).coefficient + (*iter5).coefficient, (*iter4).degree);
+            polynom.pop_front();
+            polynom.pop_front();
+            polynom.push_front(tmp);
+        }
+        else
+        {
+            polynom.pop_front();
+            polynom.pop_front();
+        }
+    }
+
 }
 
 void Polynom::add_monom(double coef, unsigned short deg)
