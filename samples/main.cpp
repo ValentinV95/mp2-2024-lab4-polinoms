@@ -1,16 +1,16 @@
-#include "polynomials.h"
+/*#include "polynomials.h"
 #include <locale>
 
 int main()  
 {
 	setlocale(LC_ALL, "Rus");
 	int quan_input;
-	cout << "Ââåäèòå êîëè÷åñòâî ìîíîìîâ â ïîëèíîìå: ";
+	cout << "Ã‚Ã¢Ã¥Ã¤Ã¨Ã²Ã¥ ÃªÃ®Ã«Ã¨Ã·Ã¥Ã±Ã²Ã¢Ã® Ã¬Ã®Ã­Ã®Ã¬Ã®Ã¢ Ã¢ Ã¯Ã®Ã«Ã¨Ã­Ã®Ã¬Ã¥: ";
 	cin >> quan_input;
 	Polynomial a(quan_input);
-	cout << "Ââåäèòå êîëè÷åñòâî ìîíîìîâ â ïîëèíîìå: ";
+	cout << "Ã‚Ã¢Ã¥Ã¤Ã¨Ã²Ã¥ ÃªÃ®Ã«Ã¨Ã·Ã¥Ã±Ã²Ã¢Ã® Ã¬Ã®Ã­Ã®Ã¬Ã®Ã¢ Ã¢ Ã¯Ã®Ã«Ã¨Ã­Ã®Ã¬Ã¥: ";
 	cin >> quan_input;
 	Polynomial b(quan_input), c;
 	b-=a;
 	cout << b << endl/* << exam*/;
-}
+}*/
