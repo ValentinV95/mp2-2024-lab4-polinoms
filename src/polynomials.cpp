@@ -17,33 +17,6 @@ Polynomial::Monome::~Monome()
 	next = nullptr;
 }
 
-Polynomial::Polynomial(int quan) : quanity(0)
-{
-	head = new Monome(0, 0, nullptr); //фиктивна€ голова
-	double a;
-	int pow_x, pow_y, pow_z;
-	cout << "¬ведите мономы: коэффициент перед мономом, степень x, степень y, степень z:";
-	for (int i = 0; i < quan; i++)
-	{
-		cin >> a >> pow_x >> pow_y >> pow_z;
-		if (a != 0 && (pow_x >= 0 && pow_x <= 9) &&
-			(pow_y >= 0 && pow_y <= 9) &&
-			(pow_z >= 0 && pow_z <= 9))
-		{
-			pop(a, pow_x*100 + pow_y*10 + pow_z);
-		}
-		else if (a == 0)	continue;
-		else
-		{
-			string except("Invalid input of monome ");
-			except += to_string(i);
-			throw invalid_argument(except);
-		}
-
-	}
-
-}
-
 Polynomial::Polynomial(int quan, double* arr) : quanity(0)
 {
 	head = new Monome(0, 0, nullptr); //фиктивна€ голова
