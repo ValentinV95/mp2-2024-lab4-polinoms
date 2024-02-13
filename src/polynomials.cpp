@@ -192,7 +192,7 @@ Polynomial& Polynomial:: operator +=(const Polynomial& p)
 		else if (ind_p->m == this_last->m)
 		{
 			this_last->alpha += ind_p->alpha;
-			if (this_last->alpha < 1e-15)
+			if (abs(this_last->alpha) < 1e-15)
 			{
 				quanity--;
 				this_pre_last->next = this_last->next;
