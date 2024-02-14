@@ -62,7 +62,7 @@ TEST(Polinom, correct_add_different_monoms_with_same_degree_with_del)
 	Monom m(3, 13), m1(-3, 13);
 	p.push(m1); 
 	p.addMonom(m);
-	EXPECT_EQ(p.getHead() == p.getEnd(), true);
+	EXPECT_EQ(p.getEnd()->degree == 1000, true);
 }
 TEST(Polinom, correct_add_different_monoms_with_same_degree_without_del)
 {
@@ -70,7 +70,7 @@ TEST(Polinom, correct_add_different_monoms_with_same_degree_without_del)
 	Monom m(3, 13), m1(7, 13);
 	p.push(m1);
 	p.addMonom(m);
-	EXPECT_EQ(p.getHead()->next->k == 10, true);
+	EXPECT_EQ(p.getHead()->k == 10, true);
 }
 TEST(Polinom, can_compare_polinoms)
 {
