@@ -175,7 +175,7 @@ void Polinoms::parse_pol(string pol, int start_mon, int end_mon)
 
     size_t power = 0;
 
-    while (i <= end_mon) //çíà÷åíèå ñòåïåíè ìîíîìà
+    while (i <= end_mon)
     {
         if (pol[i] == 'x')
         {
