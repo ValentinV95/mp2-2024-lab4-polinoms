@@ -5,24 +5,24 @@
 
 using namespace std;
 
-Node::Node(double coeff, size_t pow, Node* pNext = nullptr) //конструктор класса ноде
+Node::Node(double coeff, size_t pow, Node* pNext = nullptr)
 {
     this->coeff = coeff;
     this->pow = pow;
     this->pNext = pNext;
 }
 
-List::List()  //констурктор класса лист указывает, что список изначально пуст
+List::List()
 {
     this->Head = nullptr;
 }
 
-Node* List::getHead() //возврат указателя в начало списка
+Node* List::getHead()
 {
     return this->Head;
 }
 
-void List::clear()  //освобождение памяти (проходит по узлам списка и освобождает память)
+void List::clear()
 {
     Node* ptr1 = this->Head;
     Node* ptr2 = this->Head;
@@ -35,14 +35,14 @@ void List::clear()  //освобождение памяти (проходит по узлам списка и освобождае
     this->Head = nullptr;
 }
 
-void List::delete_after_nd(Node* nd) //удаляет элемент списка, следующий после текущего
+void List::delete_after_nd(Node* nd)
 {
-    Node* tmp = nd->pNext->pNext;
+    Node* tmp = (nd->pNext)->pNext;
     delete nd->pNext;
     nd->pNext = tmp;
 }
 
-void List::sort()  //сортировка списка по степеням
+void List::sort()
 {
     Node* first_el, * second_el, * p, * h = nullptr;
 
@@ -72,7 +72,7 @@ void List::sort()  //сортировка списка по степеням
     if (h != nullptr)
         Head = h;
 
-    for (Node* i = Head; i != nullptr; i = i->pNext) { //суммирование узлов с одинаковыми степенями
+    for (Node* i = Head; i != nullptr; i = i->pNext) {
         for (Node* j = i->pNext; j != nullptr; j = j->pNext) {
             if (i->pow == j->pow) {
                 i->coeff += j->coeff;
@@ -83,13 +83,13 @@ void List::sort()  //сортировка списка по степеням
         
 }
 
-void List::push_back(double coeff, size_t pow) //добавить элемент в список
+void List::push_back(double coeff, size_t pow)
 {
-    if (Head == nullptr) //если пустой, то новый элемент - голова
+    if (Head == nullptr)
     {
         Head = new Node(coeff, pow);
     }
-    else //иначе перебирает элементы, ищет, у кого pNext = nullptr и добавляет новый элемент
+    else
     {
         Node* tmp = Head;
 
@@ -102,7 +102,7 @@ void List::push_back(double coeff, size_t pow) //добавить элемент в список
     }
 }
 
-List::~List() //деструктор
+List::~List()
 {
     while (Head != nullptr)
     {
@@ -113,9 +113,9 @@ List::~List() //деструктор
     Head = nullptr;
 }
 
-Polinoms::Polinoms() : List() {} //конструктор по умолчанию
+Polinoms::Polinoms() : List() {}
 
-Polinoms::Polinoms(const Polinoms& pln) : List() //конструктор копирования
+Polinoms::Polinoms(const Polinoms& pln) : List()
 {
     if (pln.Head != nullptr)
     {
@@ -128,14 +128,14 @@ Polinoms::Polinoms(const Polinoms& pln) : List() //конструктор копирования
     }
 }
 
-Polinoms::Polinoms(const string& pol) : List() //список одночленов (мономов)
+Polinoms::Polinoms(const string& pol) : List() //monome parse
 {
     int start_id = 0;
     for (int i = 1; i <= pol.size(); i++)
     { 
-        if (pol[i] == '+' || pol[i] == '-' || i == pol.size())   //monommial parsing
+        if (pol[i] == '+' || pol[i] == '-' || i == pol.size())
         {
-            this->parse_pol(pol, start_id, i-1); //разборка одночлена и добавление в текущий список
+            this->parse_pol(pol, start_id, i-1);
             start_id = i;
         }
     }
@@ -143,10 +143,10 @@ Polinoms::Polinoms(const string& pol) : List() //список одночленов (мономов)
     if (this->Head == nullptr)
         this->Head = new Node(0, 0);
 
-    this->sort(); //метод sort() объекта this
+    this->sort();
 }
 
-void Polinoms::parse_pol(string pol, int start_mon, int end_mon) //разбирает полином на мономы
+void Polinoms::parse_pol(string pol, int start_mon, int end_mon)
 {
     int i = start_mon;
     string coeff;
@@ -175,7 +175,7 @@ void Polinoms::parse_pol(string pol, int start_mon, int end_mon) //разбирает пол
 
     size_t power = 0;
 
-    while (i <= end_mon) //значение степени монома
+    while (i <= end_mon) //Г§Г­Г Г·ГҐГ­ГЁГҐ Г±ГІГҐГЇГҐГ­ГЁ Г¬Г®Г­Г®Г¬Г 
     {
         if (pol[i] == 'x')
         {
@@ -226,7 +226,7 @@ void Polinoms::parse_pol(string pol, int start_mon, int end_mon) //разбирает пол
         this->push_back(koef, power);
 }
 
-bool Polinoms::operator==(const Polinoms& pln) //равно
+bool Polinoms::operator==(const Polinoms& pln)
 {
     Node* j = pln.Head;
     Node* i = this->Head;
@@ -243,12 +243,12 @@ bool Polinoms::operator==(const Polinoms& pln) //равно
     return true;
 }
 
-bool Polinoms::operator!=(const Polinoms& pln)  //не равно
+bool Polinoms::operator!=(const Polinoms& pln)
 {
     return !(*this == pln);
 }
 
-const Polinoms& Polinoms::operator=(const Polinoms& pln)  //присваивание
+const Polinoms& Polinoms::operator=(const Polinoms& pln)
 {
     if (this != &pln)
     {
@@ -263,7 +263,7 @@ const Polinoms& Polinoms::operator=(const Polinoms& pln)  //присваивание
     return *this;
 }
 
-Polinoms Polinoms::operator*(const double alpha) //чтобы для вычитания использовать
+Polinoms Polinoms::operator*(const double alpha)
 {
     if (alpha == 0)
         return Polinoms("0");
@@ -277,23 +277,23 @@ Polinoms Polinoms::operator*(const double alpha) //чтобы для вычитания использов
     return res;
 }
 
-Polinoms Polinoms::operator+(const Polinoms& pln) //сумма
+Polinoms Polinoms::operator+(const Polinoms& pln)
 {
     Polinoms res;
-    Node* pln_ptr = pln.Head;
+    Node* pln_tmp = pln.Head;
     Node* i = Head;
-    while (i != nullptr && pln_ptr != nullptr)
+    while (i != nullptr && pln_tmp != nullptr)
     {
-        if (pln_ptr->pow > i->pow)
+        if (pln_tmp->pow > i->pow)
         {
-            res.push_back(pln_ptr->coeff, pln_ptr->pow);
-            pln_ptr = pln_ptr->pNext;
+            res.push_back(pln_tmp->coeff, pln_tmp->pow);
+            pln_tmp = pln_tmp->pNext;
         }
-        else if (pln_ptr->pow == i->pow)
+        else if (pln_tmp->pow == i->pow)
         {
-            if (abs(i->coeff + pln_ptr->coeff) > eps)
-                res.push_back(i->coeff + pln_ptr->coeff, i->pow);
-            pln_ptr = pln_ptr->pNext;
+            if (abs(i->coeff + pln_tmp->coeff) > eps)
+                res.push_back(i->coeff + pln_tmp->coeff, i->pow);
+            pln_tmp = pln_tmp->pNext;
             i = i->pNext;
         }
         else
@@ -308,21 +308,21 @@ Polinoms Polinoms::operator+(const Polinoms& pln) //сумма
         i = i->pNext;
     }
 
-    while (pln_ptr != nullptr)
+    while (pln_tmp != nullptr)
     {
-        res.push_back(pln_ptr->coeff, pln_ptr->pow);
-        pln_ptr = pln_ptr->pNext;
+        res.push_back(pln_tmp->coeff, pln_tmp->pow);
+        pln_tmp = pln_tmp->pNext;
     }
 
     return res;
 }
 
-Polinoms Polinoms::operator-(Polinoms& pln) //сумма с умножением на -1
+Polinoms Polinoms::operator-(Polinoms& pln)
 {
     return *this + (pln * (-1));
 }
 
-Polinoms Polinoms::operator*(const Polinoms& pln) //умножение
+Polinoms Polinoms::operator*(const Polinoms& pln)
 {
     Polinoms res;
     for (Node* i = Head; i != nullptr; i = i->pNext)
@@ -369,7 +369,7 @@ void Polinoms::print_pol()
             else cout << "z";
         }
             
-        if (i->pNext != nullptr && (i->pNext)->coeff > 0) //positive coef
+        if (i->pNext != nullptr && (i->pNext)->coeff > 0)
             cout << " + ";
     }
     cout << ")";
@@ -388,7 +388,7 @@ double string_in_double(string num)
         i++;
     }
 
-    while(num[i] != ',' && i < num.size())     //integer part
+    while(num[i] != ',' && i < num.size())
     {
         if (num[i] >= '0' && num[i] <= '9')
         {
