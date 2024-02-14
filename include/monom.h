@@ -38,15 +38,11 @@ public:
     }
     bool operator==(const Monom& m) const noexcept
     {
-        if ((k == m.k) && (degree == m.degree))
-            return true;
-        return false;
+        return ((k == m.k) && (abs(degree - m.degree)<1e-15));
     }
     bool operator!=(const Monom& m) const noexcept
     {
-        if (*this == m)
-            return false;
-        return true;
+        return !(*this == m);
     }
     void check(const Monom& s)
     {

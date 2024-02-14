@@ -1,5 +1,6 @@
 #pragma once
 #include "Monom.h"
+#include <math.h>
 
 class Polinom
 {
@@ -169,8 +170,22 @@ if (pre_cur->next == nullptr)
         Monom* cur = res.head->next;
         while (cur != nullptr)
         {
-            cur->k = cur->k * a;
+            cur->k = cur->k * a; 
+            if (abs(cur->k) < 1e-15)
+                deleteMonom(cur);
             cur = cur->next;
+        }
+        return res;
+    }
+    Polinom operator*(const Monom& m)
+    {
+        Monom* cur = head;
+        Polinom res;
+        while (cur != last)
+        {
+            cur = cur->next;
+            if (abs((*cur * m).k)>=1e-15)
+                res.push(*cur * m);
         }
         return res;
     }
@@ -180,42 +195,31 @@ if (pre_cur->next == nullptr)
         Monom* cur = head;
         while (cur != last)
         {
-            Monom* tmp = P.head;
+            Polinom tmp(P);
             cur = cur->next;
-            while (tmp != P.last)
-            {
-                tmp = tmp->next;
-                res.addMonom((*cur) * (*tmp)); 
-
-            }
+            res = res + (tmp * (*cur));
         }
         return res;
     }
     bool operator==(const Polinom& P) const 
     {
-        bool flag = true;
         Monom* cur = head->next;
         Monom* cur2 = P.head->next;
         while (cur != nullptr && cur2 != nullptr)
         {
             if (*cur != *cur2)
             {
-                flag = false;
+                return false;
                 break;
             }
             cur = cur->next;
             cur2 = cur2->next;
         }
-        if (cur == nullptr && cur2 == nullptr)
-            return flag;
-        else flag = false;
-        return flag;
+        return (cur == nullptr && cur2 == nullptr);
     }
     bool operator!=(const Polinom& P) const 
     {
-        if (*this == P)
-            return false;
-        else return true;
+        return !(*this == P);
     }
     Polinom& operator=(Polinom& p)
     {
@@ -231,11 +235,11 @@ if (pre_cur->next == nullptr)
         swap(this->head, s.head);
         swap(this->last, s.last);
     }
-    Monom* getHead() const noexcept
+    const Monom* getHead() const noexcept
     {
-        return head;
+        return head->next;
     }
-    Monom* getEnd() const noexcept
+    const Monom* getEnd() const noexcept
     {
         return last;
     }
@@ -282,7 +286,25 @@ if (pre_cur->next == nullptr)
             int x = tmp->degree / 100;
             int y = tmp->degree / 10 - x * 10;
             int z = tmp->degree - x * 100 - y * 10;
-            ostr << tmp->k << "x" << x << "y" << y << "z" << z;
+            ostr << tmp->k;
+            if (x > 0)
+            {
+                ostr << "x";
+                if (x > 1)
+                    ostr << "^" << x;
+            }
+            if (y > 0)
+            {
+                ostr << "y";
+                if (y > 1)
+                    ostr << "^" << y;
+            }
+            if (z > 0)
+            {
+                ostr << "z";
+                if (z > 1)
+                    ostr << "^" << z;
+            }
             if (tmp != p.last)
                 ostr << " + ";
         }
@@ -296,5 +318,6 @@ if (pre_cur->next == nullptr)
             delete tmp;
             tmp = head;
         }
+        last = nullptr;
     }
 };
