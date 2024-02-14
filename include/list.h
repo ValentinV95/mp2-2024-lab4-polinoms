@@ -64,7 +64,7 @@ public:
 		const_iterator(Node* n) : node(n) {}
 		const_iterator(const iterator& it) : node(it.node) {}
 		const_iterator& operator++() { node = node->next; return *this; }
-		const_iterator operator++(int) { iterator it = *this; ++(*this); return it; }
+		const_iterator operator++(int) { const_iterator it = *this; ++(*this); return it; }
 
 		bool operator==(const const_iterator& it) { return node == it.node; }
 		bool operator!=(const const_iterator& it) { return node != it.node; }

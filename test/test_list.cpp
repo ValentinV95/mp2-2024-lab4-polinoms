@@ -13,6 +13,15 @@ TEST(List, can_copy_list)
 	ASSERT_NO_THROW(List<int>(l2));
 }
 
+TEST(List, copied_lists_are_equal)
+{
+	List<int> l1;
+	for (int i = 0; i < 50; i++)
+		l1.insert(i);
+	List<int> l2(l1);
+	EXPECT_EQ(l1, l2);
+}
+
 TEST(List, copied_list_has_own_memory)
 {
 	List<int> l1;

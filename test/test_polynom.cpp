@@ -16,6 +16,9 @@ TEST(Polynom, copied_polynoms_are_equal)
 {
 	Polynom p1;
 	p1.insertMonom(1, 1, 1, 1);
+	p1.insertMonom(1, 0, 1, 1);
+	p1.insertMonom(0, 1, 1, 1);
+	p1.insertMonom(0, 0, 1, 1);
 	Polynom p2(p1);
 	EXPECT_EQ(p1, p2);
 }
