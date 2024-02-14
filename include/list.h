@@ -49,6 +49,9 @@ public:
 	}
 
 	void pop_front() {
+		if (head == nullptr) {
+			throw logic_error("No such element");
+		}
 		node* ptmp = head->pnext;
 		delete head;
 		head = ptmp;
@@ -56,7 +59,7 @@ public:
 	}
 	void insert(int pos, const T& value) { 
 		if (pos < 0 || pos > sz) {
-			return;
+			throw out_of_range("Index out of bounds");
 		}
 		if (pos == 0) {
 			push_front(value);
@@ -89,13 +92,14 @@ public:
 	}
 	void pop_back() {
 		if (head == nullptr) {
-			return;
+			throw logic_error("No such element");
 		}
 
 		if (head->pnext == nullptr) {
-			delete head;
+			node* del = head;
 			head = nullptr;
 			sz--;
+			delete del;
 			return;
 		}
 		node* pcur = head;
@@ -109,7 +113,7 @@ public:
 	}
 	void erase(int pos) {
 		if (pos < 0 || pos > sz) {
-			return;
+			throw out_of_range("Index out of bounds");
 		}
 		if (pos == 0) {
 			pop_front();

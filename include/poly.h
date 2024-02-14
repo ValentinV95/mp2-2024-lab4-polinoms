@@ -36,12 +36,15 @@ public:
 				res.monoms[res.monoms.size() - 1].second += tmp.second;
 			}
 			else {
-				if (abs(res.monoms[res.monoms.size() - 1].second) < pow(10, -7)) {
+				if (abs(res.monoms[res.monoms.size() - 1].second) < pow(10, -11)) {
 					res.monoms.pop_back();
 				}
 				res.monoms.push_back(tmp);
 			}
 			ent.erase(minpos);
+		}
+		if (abs(res.monoms[res.monoms.size() - 1].second) < pow(10, -11)) {
+			res.monoms.pop_back();
 		}
 		return res;
 	}
@@ -68,7 +71,7 @@ public:
 			p2 = sec.monoms[c2].first;
 			if (comp(p1, p2) == -1) {
 				tmp = monoms[c1].second + sec.monoms[c2].second;
-				if (tmp != 0) {
+				if (abs(tmp) < pow(10, -11)) {
 					res.monoms.push_back({ p1,tmp });
 				}
 				c1++;
@@ -107,6 +110,10 @@ public:
 	}
 
 	polynoms operator*(const double& alpf) const {
+		if (alpf == 0) {
+			polynoms tmp;
+			return tmp;
+		}
 		polynoms tmp;
 		for (int i = 1; i < monoms.size(); i++) {
 			tmp.monoms.push_back({ monoms[i].first,alpf * monoms[i].second });
