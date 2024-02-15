@@ -227,20 +227,146 @@ TEST(List, correct_compare_lists)
 	EXPECT_NE(l1, l2);
 }
 
-TEST(List, correct_merge_sort)
+TEST(List, correct_merge_sort1)
 {
 	List<int> l;
-	for (int i = 0; i < 10; i++)
+	for (int i = 0; i < 100; i++)
 		l.push_back(i);
 
 	l.merge_sort
 	(
-		[](const int& a, const int& b) 
-		{ return a - b; }
+		[](const int& a, const int& b)
+		{ return a - b; },
+		10, l.get_size()/2
 	);
+
+	for (int j = 904; j < 1005; j++)
+		l.push_front(j);
+
+	for (int j = 2000; j < 2100; j++)
+		l.push_back(j);
+
+	EXPECT_EQ(l.get_size(), 301);
 
 	List<int>::iterator iter = l.begin();
 
-	for (int i = 9; i > -1; i--, ++iter)
-		EXPECT_EQ(*iter, i);
+	for (int j = 1004; j>= 904; --j, ++iter)
+		EXPECT_EQ(*iter, j);
+	
+	for (int i = 0; i <= 9; ++i, ++iter)
+		EXPECT_EQ(i, *iter);
+		
+	for (int i = 50; i >= 10; --i, ++iter)
+		EXPECT_EQ(i, *iter);
+		
+	for (int i = 51; i < 100; ++i, ++iter)
+		EXPECT_EQ(i, *iter);
+		
+	for (int j = 2000; j < 2100; ++j, ++iter)
+		EXPECT_EQ(*iter, j);
+}
+
+TEST(List, correct_merge_sort2)
+{
+	List<int> l;
+	for (int i = 0; i < 100; i++)
+		l.push_back(i);
+
+	l.merge_sort
+	(
+		[](const int& a, const int& b)
+		{ return a - b; },
+		0, l.get_size() / 2
+	);
+
+	for (int j = 904; j < 1005; j++)
+		l.push_front(j);
+
+	for (int j = 2000; j < 2100; j++)
+		l.push_back(j);
+
+	EXPECT_EQ(l.get_size(), 301);
+
+	List<int>::iterator iter = l.begin();
+
+	for (int j = 1004; j >= 904; --j, ++iter)
+		EXPECT_EQ(*iter, j);
+
+	for (int i = 50; i >= 0; --i, ++iter)
+		EXPECT_EQ(i, *iter);
+
+	for (int i = 51; i < 100; ++i, ++iter)
+		EXPECT_EQ(i, *iter);
+
+	for (int j = 2000; j < 2100; ++j, ++iter)
+		EXPECT_EQ(*iter, j);
+}
+
+TEST(List, correct_merge_sort3)
+{
+	List<int> l;
+	for (int i = 0; i < 100; i++)
+		l.push_back(i);
+
+	l.merge_sort
+	(
+		[](const int& a, const int& b)
+		{ return a - b; },
+		10, l.get_size()-1
+	);
+
+	for (int j = 904; j < 1005; j++)
+		l.push_front(j);
+
+	for (int j = 2000; j < 2100; j++)
+		l.push_back(j);
+
+	EXPECT_EQ(l.get_size(), 301);
+
+	List<int>::iterator iter = l.begin();
+
+	for (int j = 1004; j >= 904; --j, ++iter)
+		EXPECT_EQ(*iter, j);
+
+	for (int i = 0; i < 10; ++i, ++iter)
+		EXPECT_EQ(i, *iter);
+
+	for (int i = 99; i >= 10; --i, ++iter)
+		EXPECT_EQ(i, *iter);
+
+	for (int j = 2000; j < 2100; ++j, ++iter)
+		EXPECT_EQ(*iter, j);
+}
+
+TEST(List, correct_merge_sort4)
+{
+	List<int> l;
+	for (int i = 0; i < 100; i++)
+		l.push_back(i);
+
+	l.merge_sort
+	(
+		[](const int& a, const int& b)
+		{ return a - b; },
+		0, l.get_size() - 1
+	);
+
+	for (int j = 904; j < 1005; j++)
+		l.push_front(j);
+
+	for (int j = 2000; j < 2100; j++)
+		l.push_back(j);
+
+	EXPECT_EQ(l.get_size(), 301);
+
+	List<int>::iterator iter = l.begin();
+
+	for (int j = 1004; j >= 904; --j, ++iter)
+		EXPECT_EQ(*iter, j);
+
+	for (int i = 99; i >= 0; --i, ++iter)
+		EXPECT_EQ(i, *iter);
+
+	for (int j = 2000; j < 2100; ++j, ++iter)
+		EXPECT_EQ(*iter, j);
 }

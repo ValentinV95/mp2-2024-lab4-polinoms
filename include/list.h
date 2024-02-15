@@ -12,6 +12,14 @@ private:
         Node(const Node& node) : data(node.data), next(node.next) {}
     };
 
+    Node* ptr(size_t pos) const
+    {
+        Node* node = head;
+        for (size_t n = 0; n != pos; node = node->next, n++);
+
+        return node;
+    }
+
     Node* split(Node* node)
     {
         if (node == nullptr) throw std::invalid_argument("node shouldn't be equal to nullptr");
@@ -31,7 +39,7 @@ private:
 
     Node* merge(Node* first, Node* second, int (*comparator) (const T&, const T&) )
     {
-        if (first == nullptr || second == nullptr) throw std::invalid_argument("first and secont shouldn't be equal to nullptr");
+        if (first == nullptr || second == nullptr) throw std::invalid_argument("first and second shouldn't be equal to nullptr");
 
         Node dummy(T{}, nullptr);
         Node* cur = &dummy;
@@ -54,16 +62,18 @@ private:
         return dummy.next;
     }
 
-    void sort(Node*& first, int (*comparator) (const T&, const T&) )
+    Node* sort(Node* first, int (*comparator) (const T&, const T&))
     {
-        if (first == nullptr || first->next == nullptr) return;
+        if (first == nullptr || first->next == nullptr) return first;
 
         Node* second = split(first);
 
-        sort(first, comparator);
-        sort(second, comparator);
+        first = sort(first, comparator);
+        second = sort(second, comparator);
 
         first = merge(first, second, comparator);
+
+        return first;
     }
 
     Node* head;
@@ -267,7 +277,40 @@ public:
     
     bool operator!=(const List& l) const { return !(*this == l); }
 
-    void merge_sort(int (*comparator) (const T&, const T&)) { sort(head, comparator); }
+    void merge_sort(int (*comparator) (const T&, const T&), size_t begin, size_t end)
+    { 
+        if ((begin > size - 1) || end > (size - 1)) throw std::invalid_argument("begin and end should be less than (size - 1)");
+
+        if (begin >= end) throw std::invalid_argument("begin should be less than end");
+
+        Node* start = ptr(begin); 
+        Node* start_prev = nullptr; 
+        
+        Node* finish = ptr(end);
+        Node* finish_next = nullptr;
+
+        if (begin) start_prev = ptr(begin - 1);
+        if (end != size - 1) { finish_next = finish->next; finish->next = nullptr;}
+        
+
+        if (!begin) head = sort(start, comparator);
+        else start_prev->next = sort(start, comparator);
+
+        if (end != size - 1) 
+        {
+            Node* tmp = head;
+            for (; tmp->next != nullptr; tmp = tmp->next) {}
+            tmp->next = finish_next;
+        }
+
+        if (end == size - 1) 
+        {
+            Node* tmp = head;
+            for (; tmp->next!=nullptr; tmp = tmp-> next){}
+
+            tail = tmp;
+        }
+    }
 
     void print() 
     { 

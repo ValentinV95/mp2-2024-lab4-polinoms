@@ -25,7 +25,8 @@ void Polynom::reduce(const bool& flag)
     if (flag) 
     {
         polynom.merge_sort(
-            [](const Monom& m1, const Monom& m2) { return m1.degree - m2.degree; }
+            [](const Monom& m1, const Monom& m2) { return m1.degree - m2.degree; },
+            0, count()-1
         );
     }
 
@@ -181,7 +182,8 @@ Polynom Polynom::operator*(const Polynom& other)
     }
 
     res.polynom.merge_sort(
-        [](const Monom& m1, const Monom& m2) { return m1.degree - m2.degree; }
+        [](const Monom& m1, const Monom& m2) { return m1.degree - m2.degree; },
+        0, res.count() - 1
     );
 
     res.reduce(0);
@@ -273,7 +275,8 @@ void Polynom::fill(const bool& flag)
         }
 
         polynom.merge_sort(
-            [](const Monom& m1, const Monom& m2) { return m1.degree - m2.degree; }
+            [](const Monom& m1, const Monom& m2) { return m1.degree - m2.degree; },
+            0, count() - 1
         );
         reduce(0);
     }
