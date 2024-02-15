@@ -20,7 +20,7 @@ private:
         return node;
     }
 
-    Node* split(Node* node)
+    Node* split(Node*& node)
     {
         if (node == nullptr) throw std::invalid_argument("node shouldn't be equal to nullptr");
 
@@ -62,7 +62,7 @@ private:
         return dummy.next;
     }
 
-    Node* sort(Node* first, int (*comparator) (const T&, const T&))
+    Node* sort(Node*& first, int (*comparator) (const T&, const T&))
     {
         if (first == nullptr || first->next == nullptr) return first;
 
@@ -224,14 +224,13 @@ public:
 
     void del_after(size_t pos)
     {
-        if (pos > size - 2) throw std::out_of_range("too large pos");
+        if (pos > size - 2) throw std::out_of_range("pos cannot be greater than size - 2");
 
         Node* node = head;
         for (size_t i = 0; i != pos; node = node->next, i++);
         
-        Node* next;
+        Node* next = node->next->next;
 
-        next = node->next->next;
         delete node->next;
         node->next = next;
 
@@ -241,7 +240,8 @@ public:
 
     void del_after(Node* node, const bool& secure)
     {
-        if (!node) throw std::invalid_argument("node shoudn't be equal to nullptr");
+        if (!node || !node->next) throw std::invalid_argument("node cannot be last in list or equal to nullptr");
+
         if (secure)
         {
             bool flag1 = false;
@@ -250,9 +250,8 @@ public:
             if (!flag1) throw std::invalid_argument("Node* node isn't from this list");
         }
 
-        Node* next;
+        Node* next = node->next->next;
 
-        next = node->next->next;
         delete node->next;
         node->next = next;
 
