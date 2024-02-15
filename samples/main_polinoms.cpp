@@ -20,7 +20,7 @@ int main()
 	cin >> polinom1;
 	cout << "Enter your second polynonial:\n";
 	cin >> polinom2;
-	cout << "\nChoose operation:\n1) '+'\n2) '-'\n3) '*'(with polinom)\nEnter number: ";
+	cout << "\nChoose operation:\n1) '+'\n2) '-'\n3) '*'\nEnter number: ";
 	cin >> a;
 	cout << "\n";
 
