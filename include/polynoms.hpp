@@ -12,7 +12,6 @@ template <typename T>
 class List {
 public:
 	friend void merging(List<Monom> &list, size_t l, size_t m, size_t r);
-	friend class Polynom;
 	List() : head(nullptr), tail(nullptr), size(0) {}
 	~List();
 	List(const List<T> &c);
@@ -47,6 +46,7 @@ public:
 	T pop_front();
 	void push(size_t index, const T &value);
 	T pop(size_t index);
+	class iterator;
 
 private:
 	class Node {
@@ -80,6 +80,40 @@ private:
 	size_t size;
 };
 
+template <typename T>
+class List<T>::iterator {
+public:
+	iterator(const List<T> &list, size_t index = 0) {
+		if (list.get_size() != 0) {
+			iternode = list.get_node(index);
+		}
+		else {
+			iternode = nullptr;
+		}
+	};
+	T &operator*() {
+		return iternode->value;
+	}
+	iterator &operator++(int) {
+		iterator old(*this);
+		if (iternode != nullptr) {
+			iternode = iternode->next;
+		}
+		return old;
+	}
+	iterator &operator--() {
+		if (iternode != nullptr) {
+			iternode = iternode->prev;
+		}
+		return *this;
+	}
+	bool is_end() {
+		return (iternode == nullptr);
+	}
+private:
+	List<T>::Node *iternode;
+};
+
 // Monom - const*x^n*y^m*z^p (n,m,p 0-9)
 
 class Monom {
@@ -90,6 +124,7 @@ public:
 		}
 	}
 	Monom(double inpcoef, const char *inpdegs);
+	Monom(double inpcoef, unsigned int inpdegs);
 	Monom(const Monom &c) = default;
 	Monom(Monom && c) = default;
 	Monom &operator=(const Monom &c) = default;
@@ -103,6 +138,15 @@ public:
 			res += static_cast<int>(degs[i]);
 		}
 		return res;
+	}
+	void set_degs(unsigned int inpdegs) {
+		if (inpdegs >= std::pow(10, VARS)) {
+			throw std::invalid_argument("Invalid degs number");
+		}
+		for (size_t i = 0; i < VARS; i++) {
+			degs[VARS - i - 1] = inpdegs % 10;
+			inpdegs /= 10;
+		}
 	}
 	double get_coef() const noexcept { return coef; }
 	void set_coef(double num) noexcept { coef = num; }
@@ -133,10 +177,10 @@ public:
 	Polynom operator*(const Polynom &sec) const;
 	Polynom operator*(const Monom &sec) const {
 		Polynom res(*this);
-		List<Monom>::Node *curnode = res.monoms.head;
-		for (size_t i = 0; i < res.monoms.size; i++) {
-			curnode->value = curnode->value * sec;
-			curnode = curnode->next;
+		List<Monom>::iterator curnode(res.monoms);
+		for (size_t i = 0; i < res.monoms.get_size(); i++) {
+			*curnode = (*curnode) * sec;
+			curnode++;
 		}
 		return res;
 	}
@@ -145,10 +189,10 @@ public:
 			throw std::invalid_argument("Zero is not valid const");
 		}
 		Polynom res(*this);
-		List<Monom>::Node *curnode = res.monoms.head;
-		for (size_t i = 0; i < res.monoms.size; i++) {
-			curnode->value = curnode->value * num;
-			curnode = curnode->next;
+		List<Monom>::iterator curnode(res.monoms);
+		for (size_t i = 0; i < res.monoms.get_size(); i++) {
+			*curnode = (*curnode) * num;
+			curnode++;
 		}
 		return res;
 	}

@@ -54,11 +54,8 @@ TEST(Monom, can_multiply) {
 }
 
 TEST(Monom, can_multiply_correctly) {
-	char degs[3] = { 5, 2, 0 };
-	char degs1[3] = { 1, 5, 2 };
-	char degs2[3] = { 6, 7, 2 };
-	Monom a(2.0, degs);
-	Monom b(3.0, degs1);
-	Monom c(6.0, degs2);
+	Monom a(2.0, 520);
+	Monom b(3.0, 152);
+	Monom c(6.0, 672);
 	EXPECT_EQ(a * b, c);
 }

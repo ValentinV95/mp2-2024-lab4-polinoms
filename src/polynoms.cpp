@@ -11,6 +11,16 @@ Monom::Monom(double inpcoef, const char *inpdegs) : coef(inpcoef) {
 	}
 }
 
+Monom::Monom(double inpcoef, unsigned int inpdegs) : coef(inpcoef) {
+	if (inpdegs >= std::pow(10, VARS)) {
+		throw std::invalid_argument("Invalid degs number");
+	}
+	for (size_t i = 0; i < VARS; i++) {
+		degs[VARS - i - 1] = inpdegs % 10;
+		inpdegs /= 10;
+	}
+}
+
 std::ostream &operator<<(std::ostream &stream, const Monom &m) {
 	bool coef_is_one = false;
 	if (std::abs(m.coef - 1.0) < eps) {
@@ -70,63 +80,63 @@ bool Monom::operator==(const Monom &sec) const noexcept {
 }
 
 Polynom::Polynom(const List<Monom> &inpmonoms) : monoms(inpmonoms) {
-	if (monoms.size > 0) {
-		merge_sorting(monoms, 0, monoms.size - 1);
+	if (monoms.get_size() > 0) {
+		merge_sorting(monoms, 0, monoms.get_size() - 1);
 	}
-	List<Monom>::Node *curnode = monoms.head;
+	List<Monom>::iterator curnode(monoms);
 	size_t id = 0;
-	while (curnode != nullptr) {
-		if (std::abs(curnode->value.get_coef()) < eps) {
-			curnode = curnode->next;
+	while (!curnode.is_end()) {
+		if (std::abs((*curnode).get_coef()) < eps) {
+			curnode++;
 			monoms.pop(id);
 			continue;
 		}
-		curnode = curnode->next;
+		curnode++;
 		id++;
 	}
 }
 
 Polynom Polynom::operator+(const Polynom &sec) const {
-	List<Monom>::Node *ptr1 = monoms.head;
-	List<Monom>::Node *ptr2 = sec.monoms.head;
+	List<Monom>::iterator ptr1(monoms);
+	List<Monom>::iterator ptr2(sec.monoms);
 	List<Monom> res;
-	while (ptr1 != nullptr && ptr2 != nullptr) {
-		if (ptr1->value.get_degs() > ptr2->value.get_degs()) {
-			res.push_back(ptr1->value);
-			ptr1 = ptr1->next;
+	while (!ptr1.is_end() && !ptr2.is_end()) {
+		if ((*ptr1).get_degs() > (*ptr2).get_degs()) {
+			res.push_back(*ptr1);
+			ptr1++;
 		}
-		else if (ptr1->value.get_degs() < ptr2->value.get_degs()) {
-			res.push_back(ptr2->value);
-			ptr2 = ptr2->next;
+		else if ((*ptr1).get_degs() < (*ptr2).get_degs()) {
+			res.push_back(*ptr2);
+			ptr2++;
 		}
 		else {
-			double newcoef = ptr1->value.get_coef() + ptr2->value.get_coef();
+			double newcoef = (*ptr1).get_coef() + (*ptr2).get_coef();
 			if (std::abs(newcoef) >= eps) {
-				Monom tmp(ptr1->value);
+				Monom tmp(*ptr1);
 				tmp.set_coef(newcoef);
 				res.push_back(tmp);
 			}
-			ptr1 = ptr1->next;
-			ptr2 = ptr2->next;
+			ptr1++;
+			ptr2++;
 		}
 	}
-	while (ptr1 != nullptr) {
-		res.push_back(ptr1->value);
-		ptr1 = ptr1->next;
+	while (!ptr1.is_end()) {
+		res.push_back(*ptr1);
+		ptr1++;
 	}
-	while (ptr2 != nullptr) {
-		res.push_back(ptr2->value);
-		ptr2 = ptr2->next;
+	while (!ptr2.is_end()) {
+		res.push_back(*ptr2);
+		ptr2++;
 	}
 	return Polynom(res);
 }
 
 Polynom Polynom::operator*(const Polynom &sec) const {
 	Polynom res;
-	List<Monom>::Node *curnode = sec.monoms.head;
-	while (curnode != nullptr) {
-		res = res + *this * curnode->value;
-		curnode = curnode->next;
+	List<Monom>::iterator curnode(sec.monoms);
+	while (!curnode.is_end()) {
+		res = res + *this * (*curnode);
+		curnode++;
 	}
 	return res;
 }
@@ -137,17 +147,19 @@ std::ostream &operator<<(std::ostream &stream, const Polynom &poly) {
 		return stream;
 	}
 	bool sgn;
-	stream << poly.monoms[0];
+	List<Monom>::iterator curnode(poly.monoms);
+	stream << *curnode++;
 	for (size_t i = 1; i < poly.monoms.get_size(); i++) {
-		sgn = poly.monoms[i].get_coef() > 0.0 ? true : false;
+		sgn = (*curnode).get_coef() > 0.0 ? true : false;
 		if (sgn) {
 			stream << " + ";
-			stream << poly.monoms[i];
+			stream << *curnode;
 		}
 		else {
 			stream << " - ";
-			stream << -poly.monoms[i];
+			stream << -(*curnode);
 		}
+		curnode++;
 	}
 	return stream;
 }
