@@ -78,7 +78,7 @@ void Polynomial::pop(double alpha, int pow)
 		else if (last->m == pow)
 		{
 			last->alpha += alpha;
-			if (last->alpha == 0)
+			if (abs(last->alpha) <1e-15)
 			{
 				quanity--;
 				pre_last->next = last->next;
