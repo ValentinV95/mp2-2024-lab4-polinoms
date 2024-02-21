@@ -9,6 +9,7 @@ int main()
         cout << "1) the degree of a polynomial as a single number, the digits of which are the degrees of variables. (the degree of each variable cannot exceed 9) " << endl;
         cout << "2) After the degree, specify the coefficient before the monome. " << endl;
         cout << "For example, the monomial 16y^5z should be entered as '51 16' " << endl;
+        cout << "Monomes with zero coefficients cannot be introduced " << endl;
         cout << "to complete the input, type '-1 -1' " << endl;
 
         cout << "\nChoose an operation: write 1 for addition, 2 for subtraction of the second from the first, 3 for subtraction of the first from the second, 4 for multiplication by a constant, 5 for multiplication of polynomials: " << endl;

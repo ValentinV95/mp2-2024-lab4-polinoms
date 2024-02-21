@@ -1,0 +1,68 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32825.248
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "polynoms", "polynoms\polynoms.vcxproj", "{E2BE9B70-EFBA-4941-8499-35FA0C878629}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "tests", "tests\tests.vcxproj", "{1565525B-9986-4D1B-A22B-2EF71D1CD20A}"
+	ProjectSection(ProjectDependencies) = postProject
+		{3797F8C7-6053-4E47-A17E-5BB9C7418F04} = {3797F8C7-6053-4E47-A17E-5BB9C7418F04}
+		{E2BE9B70-EFBA-4941-8499-35FA0C878629} = {E2BE9B70-EFBA-4941-8499-35FA0C878629}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gtests", "gtests\gtests.vcxproj", "{3797F8C7-6053-4E47-A17E-5BB9C7418F04}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "sample", "samples\samples.vcxproj", "{FCB7E111-E24A-4CA3-9372-168CCD10AC33}"
+	ProjectSection(ProjectDependencies) = postProject
+		{E2BE9B70-EFBA-4941-8499-35FA0C878629} = {E2BE9B70-EFBA-4941-8499-35FA0C878629}
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E2BE9B70-EFBA-4941-8499-35FA0C878629}.Debug|x64.ActiveCfg = Debug|x64
+		{E2BE9B70-EFBA-4941-8499-35FA0C878629}.Debug|x64.Build.0 = Debug|x64
+		{E2BE9B70-EFBA-4941-8499-35FA0C878629}.Debug|x86.ActiveCfg = Debug|Win32
+		{E2BE9B70-EFBA-4941-8499-35FA0C878629}.Debug|x86.Build.0 = Debug|Win32
+		{E2BE9B70-EFBA-4941-8499-35FA0C878629}.Release|x64.ActiveCfg = Release|x64
+		{E2BE9B70-EFBA-4941-8499-35FA0C878629}.Release|x64.Build.0 = Release|x64
+		{E2BE9B70-EFBA-4941-8499-35FA0C878629}.Release|x86.ActiveCfg = Release|Win32
+		{E2BE9B70-EFBA-4941-8499-35FA0C878629}.Release|x86.Build.0 = Release|Win32
+		{1565525B-9986-4D1B-A22B-2EF71D1CD20A}.Debug|x64.ActiveCfg = Debug|x64
+		{1565525B-9986-4D1B-A22B-2EF71D1CD20A}.Debug|x64.Build.0 = Debug|x64
+		{1565525B-9986-4D1B-A22B-2EF71D1CD20A}.Debug|x86.ActiveCfg = Debug|Win32
+		{1565525B-9986-4D1B-A22B-2EF71D1CD20A}.Debug|x86.Build.0 = Debug|Win32
+		{1565525B-9986-4D1B-A22B-2EF71D1CD20A}.Release|x64.ActiveCfg = Release|x64
+		{1565525B-9986-4D1B-A22B-2EF71D1CD20A}.Release|x64.Build.0 = Release|x64
+		{1565525B-9986-4D1B-A22B-2EF71D1CD20A}.Release|x86.ActiveCfg = Release|Win32
+		{1565525B-9986-4D1B-A22B-2EF71D1CD20A}.Release|x86.Build.0 = Release|Win32
+		{3797F8C7-6053-4E47-A17E-5BB9C7418F04}.Debug|x64.ActiveCfg = Debug|x64
+		{3797F8C7-6053-4E47-A17E-5BB9C7418F04}.Debug|x64.Build.0 = Debug|x64
+		{3797F8C7-6053-4E47-A17E-5BB9C7418F04}.Debug|x86.ActiveCfg = Debug|Win32
+		{3797F8C7-6053-4E47-A17E-5BB9C7418F04}.Debug|x86.Build.0 = Debug|Win32
+		{3797F8C7-6053-4E47-A17E-5BB9C7418F04}.Release|x64.ActiveCfg = Release|x64
+		{3797F8C7-6053-4E47-A17E-5BB9C7418F04}.Release|x64.Build.0 = Release|x64
+		{3797F8C7-6053-4E47-A17E-5BB9C7418F04}.Release|x86.ActiveCfg = Release|Win32
+		{3797F8C7-6053-4E47-A17E-5BB9C7418F04}.Release|x86.Build.0 = Release|Win32
+		{FCB7E111-E24A-4CA3-9372-168CCD10AC33}.Debug|x64.ActiveCfg = Debug|x64
+		{FCB7E111-E24A-4CA3-9372-168CCD10AC33}.Debug|x64.Build.0 = Debug|x64
+		{FCB7E111-E24A-4CA3-9372-168CCD10AC33}.Debug|x86.ActiveCfg = Debug|Win32
+		{FCB7E111-E24A-4CA3-9372-168CCD10AC33}.Debug|x86.Build.0 = Debug|Win32
+		{FCB7E111-E24A-4CA3-9372-168CCD10AC33}.Release|x64.ActiveCfg = Release|x64
+		{FCB7E111-E24A-4CA3-9372-168CCD10AC33}.Release|x64.Build.0 = Release|x64
+		{FCB7E111-E24A-4CA3-9372-168CCD10AC33}.Release|x86.ActiveCfg = Release|Win32
+		{FCB7E111-E24A-4CA3-9372-168CCD10AC33}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7A43C7E9-6CE0-4AD0-8D35-6B6CCF1F998A}
+	EndGlobalSection
+EndGlobal
