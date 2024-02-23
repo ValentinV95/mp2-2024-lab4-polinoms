@@ -25,7 +25,7 @@ Node* List::getHead()
 void List::clear()
 {
     Node* ptr1 = this->Head;
-    Node* ptr2 = this->Head;
+    Node* ptr2;                      
     while (ptr1 != nullptr)
     {
         ptr2 = ptr1;
@@ -80,7 +80,7 @@ void List::sort()
             }
         }
     }
-        
+
 }
 
 void List::push_back(double coeff, size_t pow)
@@ -110,7 +110,6 @@ List::~List()
         delete Head;
         Head = tmp_ptr;
     }
-    Head = nullptr;
 }
 
 Polinoms::Polinoms() : List() {}
@@ -132,10 +131,10 @@ Polinoms::Polinoms(const string& pol) : List() //monome parse
 {
     int start_id = 0;
     for (int i = 1; i <= pol.size(); i++)
-    { 
+    {
         if (pol[i] == '+' || pol[i] == '-' || i == pol.size())
         {
-            this->parse_pol(pol, start_id, i-1);
+            this->parse_pol(pol, start_id, i - 1);
             start_id = i;
         }
     }
@@ -154,20 +153,22 @@ void Polinoms::parse_pol(string pol, int start_mon, int end_mon)
 
     bool exc = false;
 
-    if (pol[i] == '-')
+    if (pol[i] == '-' && (pol[i + 1] != '-' || pol[i + 1] != '+'))
     {
         coeff += '-';
         i++;
     }
-    if (pol[i] == '+')
-        i++;
-    
+    else throw invalid_argument("You have two consecutive signs");
+
+    if (pol[i + 1] != '-' || pol[i + 1] != '+') i++;
+    else throw invalid_argument("You have two consecutive signs");
+
     while (pol[i] != 'x' && pol[i] != 'y' && pol[i] != 'z' && i < pol.size())
     {
         coeff += pol[i++];
         fc = true;
     }
-    
+
     if (!fc)
         coeff += "1";
 
@@ -232,7 +233,8 @@ bool Polinoms::operator==(const Polinoms& pln)
     Node* i = this->Head;
     while (i != nullptr && j != nullptr) {
         if (i->coeff != j->coeff || i->pow != j->pow) {
-            return false; }
+            return false;
+        }
         i = i->pNext;
         j = j->pNext;
     }
@@ -331,11 +333,11 @@ Polinoms Polinoms::operator*(const Polinoms& pln)
         for (Node* j = pln.Head; j != nullptr; j = j->pNext)
         {
             if (i->pow + j->pow > 999)
-                throw exception("x have a very longest power");
+                throw overflow_error("x have a very long power");
             if ((i->pow + j->pow) % 10 < (i->pow % 10))
-                throw exception("z have a very longest power");
+                throw overflow_error("z have a very long power");
             if (((i->pow + j->pow) / 10) % 10 < (i->pow / 10) % 10)
-                throw exception("y have a very longest power");
+                throw overflow_error("y have a very long power");
 
             tmp.push_back(i->coeff * j->coeff, i->pow + j->pow);
         }
@@ -368,7 +370,7 @@ void Polinoms::print_pol()
                 cout << "z^" << (i->pow % 10);
             else cout << "z";
         }
-            
+
         if (i->pNext != nullptr && (i->pNext)->coeff > 0)
             cout << " + ";
     }
@@ -388,7 +390,7 @@ double string_in_double(string num)
         i++;
     }
 
-    while(num[i] != ',' && i < num.size())
+    while (num[i] != ',' && i < num.size())
     {
         if (num[i] >= '0' && num[i] <= '9')
         {
@@ -396,17 +398,17 @@ double string_in_double(string num)
             result += (double(num[i]) - 48);
         }
         else
-            throw exception("You wrote uncorrect coefficient");
+            throw invalid_argument("You wrote uncorrect coefficient");
         i++;
     }
     int power = 10;
     i++;
-    while(i < num.size())    //tail
+    while (i < num.size())    //tail
     {
         result += (double(num[i]) - 48) / power;
         power *= 10;
         i++;
     }
 
-    return result*sign;
+    return result * sign;
 }
