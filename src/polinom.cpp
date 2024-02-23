@@ -153,15 +153,14 @@ void Polinoms::parse_pol(string pol, int start_mon, int end_mon)
 
     bool exc = false;
 
-    if (pol[i] == '-' && (pol[i + 1] != '-' || pol[i + 1] != '+'))
+    if (pol[i] == '-')
     {
         coeff += '-';
         i++;
     }
-    else throw invalid_argument("You have two consecutive signs");
-
-    if (pol[i + 1] != '-' || pol[i + 1] != '+') i++;
-    else throw invalid_argument("You have two consecutive signs");
+ 
+    if (pol[i] == '+')
+        i++;
 
     while (pol[i] != 'x' && pol[i] != 'y' && pol[i] != 'z' && i < pol.size())
     {
