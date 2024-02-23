@@ -7,14 +7,14 @@ class Node {
 public:
     double coeff;
     size_t pow;
-    Node* pNext;
+    Node* next;
 
-    Node(double coeff, size_t pow, Node* pNext);
+    Node(double coeff, size_t pow, Node* next);
 };
 
 class List {
 protected:
-    Node* Head;
+    Node* head;
 public:
     List();
 
@@ -31,7 +31,7 @@ public:
     ~List();
 };
 
-class Polinoms:public List {
+class Polinoms :public List {
 private:
     void parse_pol(string pol, int start, int end);
 public:
@@ -42,7 +42,7 @@ public:
     Polinoms(const string& pol);
 
     bool operator==(const Polinoms& pln);
-    
+
     bool operator!=(const Polinoms& pln);
 
     const Polinoms& operator=(const Polinoms& pln);
