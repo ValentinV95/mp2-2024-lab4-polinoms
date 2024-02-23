@@ -5,75 +5,75 @@
 
 using namespace std;
 
-Node::Node(double coeff, size_t pow, Node* pNext = nullptr)
+Node::Node(double coeff, size_t pow, Node* next = nullptr)
 {
     this->coeff = coeff;
     this->pow = pow;
-    this->pNext = pNext;
+    this->next = next;
 }
 
 List::List()
 {
-    this->Head = nullptr;
+    this->head = nullptr;
 }
 
 Node* List::getHead()
 {
-    return this->Head;
+    return this->head;
 }
 
 void List::clear()
 {
-    Node* ptr1 = this->Head;
-    Node* ptr2;                      
+    Node* ptr1 = this->head;
+    Node* ptr2;                             ////
     while (ptr1 != nullptr)
     {
         ptr2 = ptr1;
-        ptr1 = ptr1->pNext;
+        ptr1 = ptr1->next;
         delete ptr2;
     }
-    this->Head = nullptr;
+    this->head = nullptr;
 }
 
 void List::delete_after_nd(Node* nd)
 {
-    Node* tmp = (nd->pNext)->pNext;
-    delete nd->pNext;
-    nd->pNext = tmp;
+    Node* tmp = (nd->next)->next;
+    delete nd->next;
+    nd->next = tmp;
 }
 
 void List::sort()
 {
     Node* first_el, * second_el, * p, * h = nullptr;
 
-    Node* i = Head;
+    Node* i = head;
 
     while (i != nullptr) { //sort list by power
         first_el = i;
-        i = i->pNext;
+        i = i->next;
         second_el = h;
 
         p = nullptr;
         while ((second_el != nullptr) && (first_el->pow < second_el->pow)) {
             p = second_el;
-            second_el = second_el->pNext;
+            second_el = second_el->next;
         }
 
         if (p == nullptr) {
-            first_el->pNext = h;
+            first_el->next = h;
             h = first_el;
         }
         else {
-            first_el->pNext = second_el;
-            p->pNext = first_el;
+            first_el->next = second_el;
+            p->next = first_el;
         }
     }
 
     if (h != nullptr)
-        Head = h;
+        head = h;
 
-    for (Node* i = Head; i != nullptr; i = i->pNext) {
-        for (Node* j = i->pNext; j != nullptr; j = j->pNext) {
+    for (Node* i = head; i != nullptr; i = i->next) {
+        for (Node* j = i->next; j != nullptr; j = j->next) {
             if (i->pow == j->pow) {
                 i->coeff += j->coeff;
                 delete_after_nd(i);
@@ -85,30 +85,30 @@ void List::sort()
 
 void List::push_back(double coeff, size_t pow)
 {
-    if (Head == nullptr)
+    if (head == nullptr)
     {
-        Head = new Node(coeff, pow);
+        head = new Node(coeff, pow);
     }
     else
     {
-        Node* tmp = Head;
+        Node* tmp = head;
 
-        while (tmp->pNext != nullptr)
+        while (tmp->next != nullptr)
         {
-            tmp = tmp->pNext;
+            tmp = tmp->next;
         }
 
-        tmp->pNext = new Node(coeff, pow);
+        tmp->next = new Node(coeff, pow);
     }
 }
 
 List::~List()
 {
-    while (Head != nullptr)
+    while (head != nullptr)
     {
-        Node* tmp_ptr = Head->pNext;
-        delete Head;
-        Head = tmp_ptr;
+        Node* tmp_ptr = head->next;
+        delete head;
+        head = tmp_ptr;
     }
 }
 
@@ -116,13 +116,13 @@ Polinoms::Polinoms() : List() {}
 
 Polinoms::Polinoms(const Polinoms& pln) : List()
 {
-    if (pln.Head != nullptr)
+    if (pln.head != nullptr)
     {
-        Node* tmp = pln.Head;
+        Node* tmp = pln.head;
         while (tmp != nullptr)
         {
             this->push_back(tmp->coeff, tmp->pow);
-            tmp = tmp->pNext;
+            tmp = tmp->next;
         }
     }
 }
@@ -139,8 +139,8 @@ Polinoms::Polinoms(const string& pol) : List() //monome parse
         }
     }
 
-    if (this->Head == nullptr)
-        this->Head = new Node(0, 0);
+    if (this->head == nullptr)
+        this->head = new Node(0, 0);
 
     this->sort();
 }
@@ -228,14 +228,14 @@ void Polinoms::parse_pol(string pol, int start_mon, int end_mon)
 
 bool Polinoms::operator==(const Polinoms& pln)
 {
-    Node* j = pln.Head;
-    Node* i = this->Head;
+    Node* j = pln.head;
+    Node* i = this->head;
     while (i != nullptr && j != nullptr) {
         if (i->coeff != j->coeff || i->pow != j->pow) {
             return false;
         }
-        i = i->pNext;
-        j = j->pNext;
+        i = i->next;
+        j = j->next;
     }
 
     if (i != nullptr || j != nullptr)
@@ -254,11 +254,11 @@ const Polinoms& Polinoms::operator=(const Polinoms& pln)
     if (this != &pln)
     {
         this->clear();
-        Node* tmp = pln.Head;
+        Node* tmp = pln.head;
         while (tmp != nullptr)
         {
             this->push_back(tmp->coeff, tmp->pow);
-            tmp = tmp->pNext;
+            tmp = tmp->next;
         }
     }
     return *this;
@@ -270,7 +270,7 @@ Polinoms Polinoms::operator*(const double alpha)
         return Polinoms("0");
 
     Polinoms res;
-    for (Node* i = Head; i != nullptr; i = i->pNext)
+    for (Node* i = head; i != nullptr; i = i->next)
     {
         res.push_back(i->coeff * alpha, i->pow);
     }
@@ -281,38 +281,38 @@ Polinoms Polinoms::operator*(const double alpha)
 Polinoms Polinoms::operator+(const Polinoms& pln)
 {
     Polinoms res;
-    Node* pln_tmp = pln.Head;
-    Node* i = Head;
+    Node* pln_tmp = pln.head;
+    Node* i = head;
     while (i != nullptr && pln_tmp != nullptr)
     {
         if (pln_tmp->pow > i->pow)
         {
             res.push_back(pln_tmp->coeff, pln_tmp->pow);
-            pln_tmp = pln_tmp->pNext;
+            pln_tmp = pln_tmp->next;
         }
         else if (pln_tmp->pow == i->pow)
         {
             if (abs(i->coeff + pln_tmp->coeff) > eps)
                 res.push_back(i->coeff + pln_tmp->coeff, i->pow);
-            pln_tmp = pln_tmp->pNext;
-            i = i->pNext;
+            pln_tmp = pln_tmp->next;
+            i = i->next;
         }
         else
         {
             res.push_back(i->coeff, i->pow);
-            i = i->pNext;
+            i = i->next;
         }
     }
     while (i != nullptr)
     {
         res.push_back(i->coeff, i->pow);
-        i = i->pNext;
+        i = i->next;
     }
 
     while (pln_tmp != nullptr)
     {
         res.push_back(pln_tmp->coeff, pln_tmp->pow);
-        pln_tmp = pln_tmp->pNext;
+        pln_tmp = pln_tmp->next;
     }
 
     return res;
@@ -326,10 +326,10 @@ Polinoms Polinoms::operator-(Polinoms& pln)
 Polinoms Polinoms::operator*(const Polinoms& pln)
 {
     Polinoms res;
-    for (Node* i = Head; i != nullptr; i = i->pNext)
+    for (Node* i = head; i != nullptr; i = i->next)
     {
         Polinoms tmp;
-        for (Node* j = pln.Head; j != nullptr; j = j->pNext)
+        for (Node* j = pln.head; j != nullptr; j = j->next)
         {
             if (i->pow + j->pow > 999)
                 throw overflow_error("x have a very long power");
@@ -350,7 +350,7 @@ Polinoms::~Polinoms() {}
 void Polinoms::print_pol()
 {
     cout << "(";
-    for (Node* i = Head; i != nullptr; i = i->pNext)
+    for (Node* i = head; i != nullptr; i = i->next)
     {
         if (i->coeff != 1)
             cout << i->coeff;
@@ -370,7 +370,7 @@ void Polinoms::print_pol()
             else cout << "z";
         }
 
-        if (i->pNext != nullptr && (i->pNext)->coeff > 0)
+        if (i->next != nullptr && (i->next)->coeff > 0)
             cout << " + ";
     }
     cout << ")";
