@@ -1,7 +1,7 @@
 #include "gtest.h"
 #include "polinom.h"
 
-/**/TEST(Polinom, can_create_polinom)
+TEST(Polinom, can_create_polinom)
 {
 	ASSERT_NO_THROW(Polinom p);
 }

@@ -5,13 +5,13 @@ TEST(Monom, can_create_monom)
 {
 	ASSERT_NO_THROW(Monom p);
 }
-TEST(Monom, can_create_monom_from_degree)
-{
-	ASSERT_NO_THROW(Monom p(10));
-}
 TEST(Monom, can_create_monom_from_degree_and_ratio)
 {
 	ASSERT_NO_THROW(Monom p(10, 12));
+}
+TEST(Monom, can_create_monom_from_wrong_degree_and_ratio)
+{
+	ASSERT_ANY_THROW(Monom p(10, 1000));
 }
 TEST(Monom, can_create_monom_from_monom)
 {
