@@ -152,7 +152,7 @@ public:
     }
 
     void del(int ind){
-        Node* tmp;
+        Node* tmp = {};
         for (int i = 0; i < ind-1; i++){
             if(!tmp->next){
                 throw logic_error("invalid query index");
