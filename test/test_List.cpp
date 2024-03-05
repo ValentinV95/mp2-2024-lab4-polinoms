@@ -1,5 +1,4 @@
 #include "List.h"
-
 #include "gtest.h"
 
 TEST(List, can_create_list)

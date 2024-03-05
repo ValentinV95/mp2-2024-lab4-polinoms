@@ -1,15 +1,15 @@
 ﻿cl : командная строка warning D9035: использование параметра "Gm" нежелательно, он будет удален в следующих выпусках
   Polinoms.cpp
-C:\mp2-2023-lab4-polinoms-main\src\Polinoms.cpp(65,12): warning C4018: <: несоответствие типов со знаком и без знака
-C:\mp2-2023-lab4-polinoms-main\src\Polinoms.cpp(70,22): warning C4018: >: несоответствие типов со знаком и без знака
-C:\mp2-2023-lab4-polinoms-main\src\Polinoms.cpp(79,22): warning C4018: <: несоответствие типов со знаком и без знака
-C:\mp2-2023-lab4-polinoms-main\src\Polinoms.cpp(80,26): warning C4018: <: несоответствие типов со знаком и без знака
-C:\mp2-2023-lab4-polinoms-main\src\Polinoms.cpp(102,22): warning C4018: <: несоответствие типов со знаком и без знака
-C:\mp2-2023-lab4-polinoms-main\src\Polinoms.cpp(103,26): warning C4018: <: несоответствие типов со знаком и без знака
-C:\mp2-2023-lab4-polinoms-main\src\Polinoms.cpp(125,21): warning C4018: <: несоответствие типов со знаком и без знака
-C:\mp2-2023-lab4-polinoms-main\src\Polinoms.cpp(126,26): warning C4018: <: несоответствие типов со знаком и без знака
-C:\mp2-2023-lab4-polinoms-main\src\Polinoms.cpp(133,23): warning C4018: <: несоответствие типов со знаком и без знака
-C:\mp2-2023-lab4-polinoms-main\src\Polinoms.cpp(134,27): warning C4018: <: несоответствие типов со знаком и без знака
-C:\mp2-2023-lab4-polinoms-main\src\Polinoms.cpp(147,22): warning C4018: <: несоответствие типов со знаком и без знака
-C:\mp2-2023-lab4-polinoms-main\src\Polinoms.cpp(176,22): warning C4018: <: несоответствие типов со знаком и без знака
+C:\mp2-2023-lab4-polinoms-main\src\Polinoms.cpp(66,13): warning C4018: <: несоответствие типов со знаком и без знака
+C:\mp2-2023-lab4-polinoms-main\src\Polinoms.cpp(77,22): warning C4018: >: несоответствие типов со знаком и без знака
+C:\mp2-2023-lab4-polinoms-main\src\Polinoms.cpp(86,22): warning C4018: <: несоответствие типов со знаком и без знака
+C:\mp2-2023-lab4-polinoms-main\src\Polinoms.cpp(87,26): warning C4018: <: несоответствие типов со знаком и без знака
+C:\mp2-2023-lab4-polinoms-main\src\Polinoms.cpp(109,22): warning C4018: <: несоответствие типов со знаком и без знака
+C:\mp2-2023-lab4-polinoms-main\src\Polinoms.cpp(110,26): warning C4018: <: несоответствие типов со знаком и без знака
+C:\mp2-2023-lab4-polinoms-main\src\Polinoms.cpp(132,21): warning C4018: <: несоответствие типов со знаком и без знака
+C:\mp2-2023-lab4-polinoms-main\src\Polinoms.cpp(133,26): warning C4018: <: несоответствие типов со знаком и без знака
+C:\mp2-2023-lab4-polinoms-main\src\Polinoms.cpp(140,23): warning C4018: <: несоответствие типов со знаком и без знака
+C:\mp2-2023-lab4-polinoms-main\src\Polinoms.cpp(141,27): warning C4018: <: несоответствие типов со знаком и без знака
+C:\mp2-2023-lab4-polinoms-main\src\Polinoms.cpp(154,22): warning C4018: <: несоответствие типов со знаком и без знака
+C:\mp2-2023-lab4-polinoms-main\src\Polinoms.cpp(183,22): warning C4018: <: несоответствие типов со знаком и без знака
   arithmetic.vcxproj -> C:\mp2-2023-lab3-postfix-main\sln\vc12\Debug\arithmetic.lib
