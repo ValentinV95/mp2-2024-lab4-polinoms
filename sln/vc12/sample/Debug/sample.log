@@ -1,0 +1,5 @@
+﻿main.obj : warning LNK4075: не учитывается "/EDITANDCONTINUE" из-за спецификации "/SAFESEH"
+main.obj : error LNK2019: ссылка на неразрешенный внешний символ "class std::basic_istream<char,struct std::char_traits<char> > & __cdecl operator>>(class std::basic_istream<char,struct std::char_traits<char> > &,class Polinom const &)" (??5@YAAAV?$basic_istream@DU?$char_traits@D@std@@@std@@AAV01@ABVPolinom@@@Z) в функции _main.
+main.obj : error LNK2019: ссылка на неразрешенный внешний символ "class std::basic_ostream<char,struct std::char_traits<char> > & __cdecl operator<<(class std::basic_ostream<char,struct std::char_traits<char> > &,class Polinom const &)" (??6@YAAAV?$basic_ostream@DU?$char_traits@D@std@@@std@@AAV01@ABVPolinom@@@Z) в функции _main.
+arithmetic.lib(Polinoms.obj) : error LNK2019: ссылка на неразрешенный внешний символ "public: __thiscall monom::monom(void)" (??0monom@@QAE@XZ) в функции "public: __thiscall List<class monom>::List<class monom>(void)" (??0?$List@Vmonom@@@@QAE@XZ).
+C:\mp2-2023-lab3-postfix-main\sln\vc12\Debug\sample.exe : fatal error LNK1120: неразрешенных внешних элементов: 3
