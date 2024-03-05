@@ -37,6 +37,6 @@ public:
     bool operator==(const Polinom&p) const;
     bool operator!=(const Polinom&p) const;
     Polinom& operator=(const Polinom& p);
-    friend istream& operator>>(istream &istr, const Polinom &p);
+    friend istream& operator>>(istream &istr,  Polinom &p);
     friend ostream& operator<<(ostream &ostr, const Polinom &p);
 };

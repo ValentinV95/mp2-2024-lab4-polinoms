@@ -33,7 +33,7 @@ public:
         while (head) {
             tmp = head;
             head = head->next;
-            delete[] tmp;
+            delete tmp;
         }
     }
 
@@ -65,7 +65,7 @@ public:
         T tval1;
         T tval2;
         tmp = head;
-        for (int i = 0; i < ind; i++){
+        for (int i = 0; i < ind-1; i++){
             if(!tmp->next){
                 throw logic_error("invalid query index");
             }
@@ -77,7 +77,7 @@ public:
         tmp = tmp->next;
         tval1 = tmp->data;
         tmp->data = val;
-        while (tmp!=nullptr){
+        while (tmp->next!=nullptr){
             tval2 = tval1;
             tmp = tmp->next;
             tval1 = tmp->data;
@@ -88,10 +88,12 @@ public:
     bool operator==(const List& l) const noexcept{
         Node* tmp1 = head;
         Node* tmp2 = l.head;
-        while(tmp1->next){
-            if (!tmp2->next || tmp1->data != tmp2->data){
+        while(tmp1 != nullptr){
+            if (tmp2 == nullptr || tmp1->data != tmp2->data){
                 return 0;
             }
+            tmp1 = tmp1->next;
+            tmp2 = tmp2->next;
         }
         return 1;
     }
@@ -127,7 +129,6 @@ public:
         }
         Node* newNode = new Node(val);
         current->next=newNode;
-        delete newNode;
     }
     void pop(){
         Node* current = this->head;
@@ -138,7 +139,7 @@ public:
             while(current->next->next!=nullptr){
                 current = current->next;
             }
-            delete current->next; //точно удаляется???
+            delete current->next; 
             current->next=nullptr;
         }
     }
@@ -152,7 +153,7 @@ public:
     }
 
     void del(int ind){
-        Node* tmp = {};
+        Node* tmp = head;
         for (int i = 0; i < ind-1; i++){
             if(!tmp->next){
                 throw logic_error("invalid query index");

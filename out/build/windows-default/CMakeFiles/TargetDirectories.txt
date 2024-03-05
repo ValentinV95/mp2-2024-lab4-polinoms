@@ -1,0 +1,11 @@
+C:/mp2-2023-lab3-postfix-main/out/build/windows-default/CMakeFiles/edit_cache.dir
+C:/mp2-2023-lab3-postfix-main/out/build/windows-default/CMakeFiles/rebuild_cache.dir
+C:/mp2-2023-lab3-postfix-main/out/build/windows-default/samples/CMakeFiles/postfix.dir
+C:/mp2-2023-lab3-postfix-main/out/build/windows-default/samples/CMakeFiles/edit_cache.dir
+C:/mp2-2023-lab3-postfix-main/out/build/windows-default/samples/CMakeFiles/rebuild_cache.dir
+C:/mp2-2023-lab3-postfix-main/out/build/windows-default/test/CMakeFiles/postfix_test.dir
+C:/mp2-2023-lab3-postfix-main/out/build/windows-default/test/CMakeFiles/edit_cache.dir
+C:/mp2-2023-lab3-postfix-main/out/build/windows-default/test/CMakeFiles/rebuild_cache.dir
+C:/mp2-2023-lab3-postfix-main/out/build/windows-default/gtest/CMakeFiles/gtest.dir
+C:/mp2-2023-lab3-postfix-main/out/build/windows-default/gtest/CMakeFiles/edit_cache.dir
+C:/mp2-2023-lab3-postfix-main/out/build/windows-default/gtest/CMakeFiles/rebuild_cache.dir
