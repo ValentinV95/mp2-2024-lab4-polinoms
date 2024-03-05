@@ -211,13 +211,13 @@ istream& operator>>(istream &istr, Polinom p){
 }
 
 ostream& operator<<(ostream &ostr,  Polinom p){
-    int num = p.get_size();
+    int num = p.sz;
     for (int i = 0; i< num; i++){
-        ostr<<p.get_monom(i).getCoef();
-        ostr << "x^" << p.get_monom(i).getDeg()/100<<" ";
-        ostr << "y^" << p.get_monom(i).getDeg()%100/10<<" ";
-        ostr << "y^" << p.get_monom(i).getDeg()%10<<" ";
-        if(p.get_monom(i+1).getCoef()<0){ostr << "- ";}
+        ostr<< p.polinom.getData(i).getCoef()
+        ostr << "x^" << p.polinom.getData(i).getDeg() /100<<" ";
+        ostr << "y^" << p.polinom.getData(i).getDeg() %100/10<<" ";
+        ostr << "y^" << p.polinom.getData(i).getDeg() %10<<" ";
+        if(p.polinom.getData(i+1).getCoef() <0){ostr << "- ";}
         else{ostr<<"+ ";}
     }
     return ostr;
