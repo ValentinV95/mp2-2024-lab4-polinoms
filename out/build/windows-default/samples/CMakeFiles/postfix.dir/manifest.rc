@@ -1,2 +1,0 @@
-#pragma code_page(65001)
-1 /* CREATEPROCESS_MANIFEST_RESOURCE_ID */ 24 /* RT_MANIFEST */ "C:/mp2-2023-lab3-postfix-main/out/build/windows-default/samples/CMakeFiles/postfix.dir/embed.manifest"
