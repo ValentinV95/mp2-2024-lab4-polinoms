@@ -30,7 +30,7 @@ public:
     void addMonom(monom mn);
     void insertMonom(int ind, monom mn);
     void delMonom(int ind);
-    monom get_monom(int ind);
+    monom get_monom(int ind);   
     Polinom operator+(const Polinom&p);
     Polinom operator-(const Polinom&p);
     Polinom operator*(const Polinom&p);
