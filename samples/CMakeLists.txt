@@ -1,4 +1,4 @@
 file(GLOB hdrs "*.h*" "../include/*.h")
-file(GLOB srcs "*.cpp" "../src/*.cpp")
+file(GLOB srcs "*.cpp" "../src/arithmetic.cpp")
 
-add_executable(polinoms ${srcs} ${hdrs})
+add_executable(postfix ${srcs} ${hdrs})
