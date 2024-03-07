@@ -97,7 +97,7 @@ TEST(List, can_compare_correctly_true)
     l1.push_back(4);
     l2.push_back(3);
     l2.push_back(4);
-    EXPECT_EQ(l1==l2, 1);
+    EXPECT_EQ(l1 == l2, 1);
 }
 
 TEST(List, can_compare_correctly_false)
@@ -107,9 +107,9 @@ TEST(List, can_compare_correctly_false)
     l1.push_back(3);
     l1.push_back(4);
     l2.push_back(3);
-    EXPECT_EQ(l1==l2, 0);
+    EXPECT_EQ(l1 == l2, 0);
     l2.push_back(5);
-    EXPECT_EQ(l1==l2, 0);
+    EXPECT_EQ(l1 == l2, 0);
 }
 
 TEST(List, can_not_compare_correctly_false)
@@ -120,7 +120,7 @@ TEST(List, can_not_compare_correctly_false)
     l1.push_back(4);
     l2.push_back(3);
     l2.push_back(4);
-    EXPECT_EQ(l1!=l2, 0);
+    EXPECT_EQ(l1 != l2, 0);
 }
 
 TEST(List, can_not_compare_correctly_true)
@@ -130,9 +130,9 @@ TEST(List, can_not_compare_correctly_true)
     l1.push_back(3);
     l1.push_back(4);
     l2.push_back(3);
-    EXPECT_EQ(l1!=l2, 1);
+    EXPECT_EQ(l1 != l2, 1);
     l2.push_back(5);
-    EXPECT_EQ(l1!=l2, 1);
+    EXPECT_EQ(l1 != l2, 1);
 }
 
 TEST(List, can_delete)
