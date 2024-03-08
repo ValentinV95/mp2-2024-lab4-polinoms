@@ -159,7 +159,9 @@ Polinom Polinom::operator*(const Polinom& p) {
         for (int j = 1; j < p.sz + 1; j++) {
             monom mn(polinom.getData(i).getDeg() + p.polinom.getData(j).getDeg(),
                 polinom.getData(i).getCoef() * p.polinom.getData(j).getCoef());
-
+            if (mn.getDeg() > 9) {
+                throw logic_error("big degree by mult");
+            }
             res.addMonom(mn);
         }
     }
@@ -188,7 +190,7 @@ bool Polinom::operator==(const Polinom& p) const {
 }
 
 bool Polinom::operator!=(const Polinom& p) const {
-    return !(*this == p);
+    return !(this == &p);
 }
 
 Polinom& Polinom::operator=(const Polinom& p) {
