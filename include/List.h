@@ -17,7 +17,7 @@ private:
             next = nullptr;
         }
         Node& operator=(Node& nd) {
-            if (*this == nd) {
+            if (this == &nd) {
                 return *this
             }
             data = nd.data;
@@ -174,13 +174,6 @@ public:
         }
     }
 
-    T& operator[](int ind) const{
-        Node* tmp = head;
-        for (int i = 0; i< ind; i++){
-            tmp = tmp->next;
-        }
-        return tmp->data;
-    }
 
     void del(int ind){
         Node* tmp = head;
