@@ -194,7 +194,7 @@ bool Polinom::operator!=(const Polinom& p) const {
 }
 
 Polinom& Polinom::operator=(const Polinom& p) {
-    if (*this != p) {
+    if (this != &p) {
         polinom = p.polinom;
         sz = p.sz;
     }
